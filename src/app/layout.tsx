@@ -30,7 +30,6 @@ export default function RootLayout({
             >
                 <CustomProvider>
                     <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-
                         <AppBar />
                     </div>
                     {children}

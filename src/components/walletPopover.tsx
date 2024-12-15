@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { ElementRef, useRef } from "react";
+import PageAssist from "@/app/page-assist";
 interface WalletPopoverProps {
   align?: "start" | "center" | "end";
   children: React.ReactNode;
@@ -41,6 +42,7 @@ export const WalletPopover = ({
               <X className="h-4 w-4" />
             </Button>
           </PopoverClose>
+          <PageAssist />
         </div>
       </PopoverContent>
     </Popover>
