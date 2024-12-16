@@ -3,8 +3,8 @@ import fs from "fs";
 
 // Creating a client
 const algodToken = ''; // free service does not require tokens
-const algodServer = process.env.NEXT_PUBLIC_ALGORAND_SERVER!;
-const algodPort = process.env.NEXT_PUBLIC_ALGORAND_SERVER_PORT!;
+const algodServer = process.env.NEXT_PUBLIC_ALGORAND_SERVER ?? "https://testnet-api.4160.nodely.dev";
+const algodPort = process.env.NEXT_PUBLIC_ALGORAND_SERVER_PORT ?? "443";
 
 // Create an instance of the algod client
 export const algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
