@@ -1,3 +1,4 @@
+import 'server-only'
 import { algodClient } from "./algod-client";
 
 interface AssetInfo {
