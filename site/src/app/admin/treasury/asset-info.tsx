@@ -1,24 +1,14 @@
-import { getAssetDetails } from "@/utils/get-asset-details";
-import { useEffect, useState } from "react"
+import { getAssetDetails } from "../../../utils/get-asset-details";
 
-export default function AssetInfo(props: { assetID?: number }) {
-    let [name, setName] = useState<string>("");
-    let [unit, setUnit] = useState<string>("")
-    useEffect(() => {
-        (async () => {
-            if (props.assetID !== undefined && props.assetID !== 0) {
-                let details = await getAssetDetails(props.assetID);
-                setName(details.name);
-                setUnit(details.unit);
-            }
-        })();
-    }, []);
-
-    return <div>
-        {props.assetID === 0 || props.assetID === undefined
-            ? <div></div>
-            : <div>
-                <p>{name}({unit})</p>
-            </div>}
-    </div>
+export default async function AssetInfo(props: {assetID?: number}) {
+    if (props.assetID !== undefined && props.assetID !== 0) {
+        return <div></div>
+    } else {
+        // get info on asset
+        let info = await getAssetDetails(props.assetID!);
+        
+        return <div>
+            <p>{info.name} ({info.unit})</p>
+        </div>
+    }
 }
