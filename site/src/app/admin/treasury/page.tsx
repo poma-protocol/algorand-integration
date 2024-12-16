@@ -9,6 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { WalletPopover } from "@/components/walletPopover";
 import { truncateAddress } from "@/utils/truncateAddress";
+import AssetInfo from "./asset-info";
+import { useState } from "react";
+import { hasContractOptedIn } from "@/utils/get-asset-details";
+import algosdk from "algosdk";
+import { algodClient, contract } from "@/utils/algod-client";
 const formSchema = z.object({
     assetID: z.number({ message: "Asset ID must be a number" }),
     amount: z.number({ message: "Amount Must Be a number" }).gt(0, { message: "Amount Must Be Greater Than 0" })
@@ -16,7 +21,8 @@ const formSchema = z.object({
 type SendToTreasuryType = z.infer<typeof formSchema>
 
 export default function SendToTreasury() {
-    const { activeAddress } = useWallet();
+    const { activeAddress, signTransactions, sendTransactions } = useWallet();
+    const [assetID, setAssetID] = useState<string>("");
     const form = useForm<SendToTreasuryType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -24,13 +30,26 @@ export default function SendToTreasury() {
         }
     });
 
-    function onSubmit(values: SendToTreasuryType) {
+    async function onSubmit(values: SendToTreasuryType) {
         // Check if smart contract has opted in
+        let optedIn = await hasContractOptedIn(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!, values.assetID);
 
         // If not opt in
+        if (!optedIn) {
+            // Send funds
+            const suggestedParams = await algodClient.getTransactionParams().do();
+            const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+                suggestedParams,
+                amount: values.amount,
+                from: activeAddress!,
+                to: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!,
+                assetIndex: values.assetID
+            });
 
-        // Send funds
-        console.log(values);
+            let signedTransactions = await signTransactions([txn.toByte()]);
+            await sendTransactions(signedTransactions, 4);
+            console.log("Done!");
+        }
     }
 
     return <div>
@@ -45,8 +64,9 @@ export default function SendToTreasury() {
                                 <FormItem>
                                     <FormLabel>Asset ID</FormLabel>
                                     <FormControl>
-                                        <Input {...field} />
+                                        <Input onChange={e => setAssetID(e.currentTarget.value)} value={assetID}/>
                                     </FormControl>
+                                    <AssetInfo assetID={Number.parseInt(assetID)} />
                                     <FormDescription>
                                         The ID of the asset on Algorand
                                     </FormDescription>
