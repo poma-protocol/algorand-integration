@@ -1,13 +1,13 @@
 "use client";
-import { useWallet } from "@txnlab/use-wallet";
+import { useWallet } from "@txnlab/use-wallet-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 export default function PageAssist() {
-  const { providers, activeAccount } = useWallet();
+  const { wallets, activeAccount } = useWallet();
   return (
     <div className="flex flex-col gap-8">
-      {providers?.map((provider) => (
-        <div key={provider.metadata.id}>
+      {wallets?.map((provider, i) => (
+        <div key={i}>
           <h4 className="flex font-semibold items-center py-4 gap-x-2">
             <Image
               width={30}
@@ -34,14 +34,6 @@ export default function PageAssist() {
               disabled={!provider.isConnected}
             >
               Disconnect
-            </Button>
-            <Button
-              size="sm"
-              type="button"
-              onClick={provider.setActiveProvider}
-              disabled={!provider.isConnected || provider.isActive}
-            >
-              Set Active
             </Button>
 
             <div className="hidden">
