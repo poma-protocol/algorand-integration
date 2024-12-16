@@ -5,6 +5,20 @@ interface AssetInfo {
     unit: string
 }
 
+export async function hasContractOptedIn(address: string, assetID: number): Promise<boolean> {
+    try {
+        const contractInfo = await algodClient.accountAssetInformation(address, assetID).do();
+        return true;
+    } catch(err) {
+        if (err instanceof Error) {
+            if (err.message.includes("asset info not found")) {
+                return false;
+            }
+        }
+        throw Error("Could Not Check If Contract Has Opted In");
+    }
+}
+
 export async function getAssetDetails(assetID: number): Promise<AssetInfo> {
     try {
         const assetInfo = await algodClient.getAssetByID(assetID).do();
