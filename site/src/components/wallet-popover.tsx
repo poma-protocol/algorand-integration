@@ -18,13 +18,13 @@ export default function WalletPopover(props: WalletPopoverProps) {
         <Popover>
             <PopoverTrigger asChild>{props.children}</PopoverTrigger>
             <PopoverContent
-            align={props.align}
-            side={props.side}
-            sideOffset={props.sideOffset}
-            className=" w-96 pt-3"
-          >
-              <PageAssist />
-          </PopoverContent>
+                align={props.align}
+                side={props.side}
+                sideOffset={props.sideOffset}
+                className=" w-96 pt-3"
+            >
+                <PageAssist />
+            </PopoverContent>
         </Popover>
     );
 }
