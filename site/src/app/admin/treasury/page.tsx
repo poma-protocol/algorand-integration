@@ -9,25 +9,69 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { WalletPopover } from "@/components/walletPopover";
 import { truncateAddress } from "@/utils/truncateAddress";
-import { useState } from "react";
+import algosdk from "algosdk";
+import { hasContractOptedIn } from "@/utils/get-asset-details";
+import { contract } from "@/utils/algod-client";
+// const formSchema = z.object({
+//     assetID: z.number({ message: "Asset ID must be a number" }),
+//     amount: z.number({ message: "Amount Must Be a number" }).gt(0, { message: "Amount Must Be Greater Than 0" })
+// })
 const formSchema = z.object({
-    assetID: z.number({ message: "Asset ID must be a number" }),
-    amount: z.number({ message: "Amount Must Be a number" }).gt(0, { message: "Amount Must Be Greater Than 0" })
+    assetID: z.string(),
+    amount: z.string()
 })
 type SendToTreasuryType = z.infer<typeof formSchema>
 
 export default function SendToTreasury() {
-    const { activeAddress, signTransactions, sendTransactions, signer } = useWallet();
-    const [assetID, setAssetID] = useState<string>("");
+    const { activeAddress, algodClient, transactionSigner } = useWallet();
     const form = useForm<SendToTreasuryType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            amount: 0
+            amount: "",
+            assetID: ""
         }
     });
 
     async function onSubmit(values: SendToTreasuryType) {
+        const amount = Number.parseInt(values.amount);
+        const assetID = Number.parseInt(values.assetID);
 
+        try {
+            const suggestedParams = await algodClient.getTransactionParams().do();
+            const atc = new algosdk.AtomicTransactionComposer();
+
+            const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
+                suggestedParams,
+                from: activeAddress!,
+                to: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!,
+                amount: amount,
+                assetIndex: assetID
+            });
+
+            let isOptedIn = await hasContractOptedIn(algodClient, process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!, assetID);
+            if (!isOptedIn) {
+                // Opt in
+                atc.addMethodCall({
+                    appID: Number.parseInt(process.env.NEXT_PUBLIC_APP_ID!),
+                    method: contract.getMethodByName("opt_in"),
+                    methodArgs: [
+                        assetID
+                    ],
+                    appForeignAssets: [assetID],
+                    sender: activeAddress!,
+                    signer: transactionSigner,
+                    suggestedParams
+                })
+            }
+
+            // Call transaction
+            atc.addTransaction({ txn, signer: transactionSigner });
+            await atc.execute(algodClient, 4);
+            console.log("Done");
+        } catch (err) {
+            console.log("Error Submitting Transaction =>", err);
+            throw new Error("Could Not Send Asset To Treasury")
+        }
     }
 
     return <div>
@@ -42,7 +86,7 @@ export default function SendToTreasury() {
                                 <FormItem>
                                     <FormLabel>Asset ID</FormLabel>
                                     <FormControl>
-                                        <Input onChange={e => setAssetID(e.currentTarget.value)} value={assetID}/>
+                                        <Input type="number" {...field} />
                                     </FormControl>
                                     <FormDescription>
                                         The ID of the asset on Algorand

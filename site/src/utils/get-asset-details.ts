@@ -1,12 +1,11 @@
-import 'server-only'
-import { algodClient } from "./algod-client";
+import algosdk from "algosdk";
 
 interface AssetInfo {
     name: string,
     unit: string
 }
 
-export async function hasContractOptedIn(address: string, assetID: number): Promise<boolean> {
+export async function hasContractOptedIn(algodClient: algosdk.Algodv2, address: string, assetID: number): Promise<boolean> {
     try {
         const contractInfo = await algodClient.accountAssetInformation(address, assetID).do();
         return true;
@@ -20,7 +19,7 @@ export async function hasContractOptedIn(address: string, assetID: number): Prom
     }
 }
 
-export async function getAssetDetails(assetID: number): Promise<AssetInfo> {
+export async function getAssetDetails(algodClient: algosdk.Algodv2, assetID: number): Promise<AssetInfo> {
     try {
         const assetInfo = await algodClient.getAssetByID(assetID).do();
         return {
