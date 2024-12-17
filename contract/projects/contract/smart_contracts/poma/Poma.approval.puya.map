@@ -3,7 +3,7 @@
   "sources": [
     "contract.py"
   ],
-  "mappings": ";;;;;;;;;;AAIA;;;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;AACK;;AAAA;AAAA;AAAA;;AAAA;AADL;;;AAAA;;;AACK;;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAIA;;AAAA;AAAA;AAAA;;AAAA;AALL;;;AAAA;AAKK;;;AAAA;AAAA;AAUA;;AAAA;AAAA;AAAA;;AAAA;AAfL;;;AAAA;AAAA;;;AAAA;AAAA;;AAAA;;;AAAA;AAeK;;;AAAA;AAAA;AAfL;;AAAA;;;;;;;;;AAAA;AAAA;AACA;;;AAEe;;;;;;;;;AAAA;;AAAA;AAAP;AAER;;;AAGQ;AAEmB;;AACF;;;;;;;;;AAFA;;;AADjB;;;AAAA;;;AAAA;;AAOR;;;AAGQ;AAGiB;;;;;;;;;;;;;;;;AAHjB;;;AAAA;;;AAAA;",
+  "mappings": ";;;;;;;;;;AAIA;;;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;AACK;;AAAA;AAAA;AAAA;;AAAA;AADL;;;AAAA;;;AACK;;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAIA;;AAAA;AAAA;AAAA;;AAAA;AALL;;;AAAA;AAKK;;;AAAA;AAAA;AAUA;;AAAA;AAAA;AAAA;;AAAA;AAfL;;;AAAA;AAAA;;;AAAA;AAAA;;AAAA;;;AAAA;AAeK;;;AAAA;AAAA;AAfL;;AAAA;;;;;;;;;AAAA;AAAA;AACA;;;AAEe;;;;;;;;;AAAA;;AAAA;AAAP;AAER;;;AAGQ;AAEmB;;;;;;;;AADF;;;AADjB;;;AAIQ;;;AAJR;;AAOR;;;AAGQ;;;;;;;;;;;;;AAAA;;;AAIQ;;;AAJR;",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -592,47 +592,27 @@
       ]
     },
     "160": {
-      "op": "dup",
-      "defined_out": [
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
-        "inner_txn_params%0%%param_AssetSender_idx_0#0"
-      ],
-      "stack_out": [
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
-        "inner_txn_params%0%%param_AssetSender_idx_0#0"
-      ]
-    },
-    "161": {
       "op": "frame_dig -1",
       "defined_out": [
         "assetID#0 (copy)",
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
-        "inner_txn_params%0%%param_AssetSender_idx_0#0"
+        "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ],
       "stack_out": [
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
-        "inner_txn_params%0%%param_AssetSender_idx_0#0",
         "assetID#0 (copy)"
       ]
     },
-    "163": {
+    "162": {
       "op": "itxn_field XferAsset",
-      "stack_out": [
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
-        "inner_txn_params%0%%param_AssetSender_idx_0#0"
-      ]
-    },
-    "165": {
-      "op": "itxn_field AssetSender",
       "stack_out": [
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ]
     },
-    "167": {
+    "164": {
       "op": "itxn_field AssetReceiver",
       "stack_out": []
     },
-    "169": {
+    "166": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0"
@@ -641,11 +621,11 @@
         "0"
       ]
     },
-    "170": {
+    "167": {
       "op": "itxn_field AssetAmount",
       "stack_out": []
     },
-    "172": {
+    "169": {
       "op": "intc_2 // axfer",
       "defined_out": [
         "axfer"
@@ -654,28 +634,28 @@
         "axfer"
       ]
     },
-    "173": {
+    "170": {
       "op": "itxn_field TypeEnum",
       "stack_out": []
     },
-    "175": {
+    "172": {
       "op": "intc_0 // 0",
       "stack_out": [
         "0"
       ]
     },
-    "176": {
+    "173": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "178": {
+    "175": {
       "op": "itxn_submit"
     },
-    "179": {
+    "176": {
       "retsub": true,
       "op": "retsub"
     },
-    "180": {
+    "177": {
       "subroutine": "smart_contracts.poma.contract.Poma.send_reward",
       "params": {
         "amount#0": "uint64",
@@ -686,40 +666,23 @@
       "stack_in": [],
       "op": "proto 3 0"
     },
-    "183": {
+    "180": {
       "op": "itxn_begin"
     },
-    "184": {
-      "op": "global CurrentApplicationAddress",
-      "defined_out": [
-        "inner_txn_params%0%%param_AssetSender_idx_0#0"
-      ],
-      "stack_out": [
-        "inner_txn_params%0%%param_AssetSender_idx_0#0"
-      ]
-    },
-    "186": {
+    "181": {
       "op": "frame_dig -1",
       "defined_out": [
-        "asset_id#0 (copy)",
-        "inner_txn_params%0%%param_AssetSender_idx_0#0"
+        "asset_id#0 (copy)"
       ],
       "stack_out": [
-        "inner_txn_params%0%%param_AssetSender_idx_0#0",
         "asset_id#0 (copy)"
       ]
     },
-    "188": {
+    "183": {
       "op": "itxn_field XferAsset",
-      "stack_out": [
-        "inner_txn_params%0%%param_AssetSender_idx_0#0"
-      ]
-    },
-    "190": {
-      "op": "itxn_field AssetSender",
       "stack_out": []
     },
-    "192": {
+    "185": {
       "op": "frame_dig -2",
       "defined_out": [
         "receiver#0 (copy)"
@@ -728,11 +691,11 @@
         "receiver#0 (copy)"
       ]
     },
-    "194": {
+    "187": {
       "op": "itxn_field AssetReceiver",
       "stack_out": []
     },
-    "196": {
+    "189": {
       "op": "frame_dig -3",
       "defined_out": [
         "amount#0 (copy)"
@@ -741,11 +704,11 @@
         "amount#0 (copy)"
       ]
     },
-    "198": {
+    "191": {
       "op": "itxn_field AssetAmount",
       "stack_out": []
     },
-    "200": {
+    "193": {
       "op": "intc_2 // axfer",
       "defined_out": [
         "axfer"
@@ -754,11 +717,11 @@
         "axfer"
       ]
     },
-    "201": {
+    "194": {
       "op": "itxn_field TypeEnum",
       "stack_out": []
     },
-    "203": {
+    "196": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0"
@@ -767,14 +730,14 @@
         "0"
       ]
     },
-    "204": {
+    "197": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "206": {
+    "199": {
       "op": "itxn_submit"
     },
-    "207": {
+    "200": {
       "retsub": true,
       "op": "retsub"
     }
