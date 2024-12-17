@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import CustomProvider from "./provider";
+import { Providers } from "@/providers";
 import { AppBar } from "@/components/appBar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import AppSidebar from "@/components/app-sidebar";
@@ -27,30 +27,31 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+
     return (
         <html lang="en">
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <CustomProvider>
+                <Providers>
                     <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                         <AppBar />
                     </div>
-                    <AppSidebar/>
+                    <AppSidebar />
 
                     <div className="flex flex-col ">
 
                         <main className="flex-grow">
-                            
-                                {children}
-                            
+
+                            {children}
+
                         </main>
 
                         <Footer />
                     </div>
-                </CustomProvider>
-
+                </Providers>
             </body>
         </html>
     );
+
 }
