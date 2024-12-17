@@ -1,8 +1,15 @@
 import Image from "next/image";
-
+import AppSidebar from "@/components/app-sidebar";
+import { IoIosSend } from "react-icons/io";
+import { Button } from "@/components/ui/button";
+import { SmartContract } from "@/utils/smartcontract";
 export default function Home() {
-  return (
-    <div className="min-h-screen overflow-x-hidden overflow-y-hidden">
-    </div>
-  );
+    function onSend() {
+
+    }
+    return (
+        <div className="overflow-x-hidden overflow-y-hidden">
+
+        </div>
+    );
 }

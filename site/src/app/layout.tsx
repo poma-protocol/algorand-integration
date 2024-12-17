@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import CustomProvider from "./provider";
 import { AppBar } from "@/components/appBar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import AppSidebar from "@/components/app-sidebar";
+
 import Footer from "@/components/footer";
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -33,11 +36,18 @@ export default function RootLayout({
                     <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                         <AppBar />
                     </div>
+                    <AppSidebar/>
+
                     <div className="flex flex-col ">
-                        <main className="flex-grow">{children}</main>
+
+                        <main className="flex-grow">
+                            
+                                {children}
+                            
+                        </main>
+
                         <Footer />
                     </div>
-
                 </CustomProvider>
 
             </body>
