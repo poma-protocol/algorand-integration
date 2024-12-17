@@ -30,11 +30,11 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="flex">
+        <div className="flex h-full">
             {/* Sidebar */}
             <div
                 className={`${open ? "w-72" : "w-20"
-                    } bg-white border-r border-black h-screen p-5 pt-8 relative duration-300`}
+                    } bg-white border-r border-black p-5 pt-8 relative duration-300`}
             >
                 <div className="flex gap-x-4 items-center">
                     <h1
@@ -65,7 +65,7 @@ const Sidebar = () => {
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 p-5">
+            <div className="flex-1 p-5 ">
                 <h2 className="text-2xl font-semibold mb-4">{activePage}</h2>
                 {renderContent()}
             </div>
