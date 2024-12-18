@@ -4,8 +4,8 @@ import fs from "fs";
 
 // Creating a client
 const algodToken = ''; // free service does not require tokens
-const algodServer = process.env.ALGORAND_SERVER;
-const algodPort = process.env.ALGORAND_SERVER_PORT;
+const algodServer = process.env.NEXT_PUBLIC_ALGORAND_SERVER;
+const algodPort = process.env.NEXT_PUBLIC_ALGORAND_SERVER_PORT;
 
 // Create an instance of the algod client
 export const algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);

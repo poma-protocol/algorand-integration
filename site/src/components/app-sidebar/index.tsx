@@ -71,7 +71,7 @@ const Sidebar = () => {
 
             {/* Main Content */}
             <div className="flex-1 p-5">
-                <h2 className="text-2xl font-semibold mb-4">{activePage}</h2>
+                <h2 className="text-2xl font-semibold mb-4 text-center">{activePage}</h2>
                 {renderContent()}
             </div>
         </div>

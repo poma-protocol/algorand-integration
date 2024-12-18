@@ -5,7 +5,7 @@ import { isLowFundsErr } from "./helpers";
 interface sendRewardArgs {
     amount: number,
     receiver: string,
-    assetId: string
+    assetId: number
 }
 export class SmartContract {
     algoClient: algosdk.Algodv2
@@ -56,3 +56,5 @@ export class SmartContract {
     }
 
 }
+const smartContract = new SmartContract(algodClient);
+export default smartContract;
