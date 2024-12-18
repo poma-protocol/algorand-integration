@@ -34,20 +34,26 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 <Providers>
-                    <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <AppBar />
-                    </div>
-                    <AppSidebar />
+                    <div className="flex flex-col h-screen">
 
-                    <div className="flex flex-col ">
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <AppBar />
+                        </div>
 
-                        <main className="flex-grow">
+                        <div className="flex-1">
+                            <AppSidebar />
 
-                            {children}
+                            <div className="flex flex-col ">
+                                <main className="flex-grow">
 
-                        </main>
+                                    {children}
+
+                                </main>
+                            </div>
+                        </div>
 
                         <Footer />
+
                     </div>
                 </Providers>
             </body>
