@@ -5,7 +5,7 @@ import { Providers } from "@/providers";
 import { AppBar } from "@/components/appBar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import AppSidebar from "@/components/app-sidebar";
-
+import { Toaster } from "sonner";
 import Footer from "@/components/footer";
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -56,6 +56,7 @@ export default function RootLayout({
 
                     </div>
                 </Providers>
+                <Toaster />
             </body>
         </html>
     );

@@ -21,12 +21,15 @@ export class SmartContract {
                 appID: Number.parseInt(process.env.APP_ID),
                 method: contract.getMethodByName("opt_in"),
                 methodArgs: [
-                    algosdk.encodeUint64(assetId)
+                    assetId
                 ],
                 sender: pomaAccount.addr,
                 signer: pomaAccountSigner,
-                suggestedParams
+                suggestedParams,
+                appForeignAssets: [assetId]
             })
+            const txn = await atc.execute(this.algoClient, 4)
+
         }
         catch (error) {
             throw new Error(`Error while opting in: ${error}`)
@@ -40,18 +43,44 @@ export class SmartContract {
                 appID: Number.parseInt(process.env.APP_ID),
                 method: contract.getMethodByName("send_reward"),
                 methodArgs: [
-                    algosdk.encodeUint64(args.amount)
+                    args.amount,
+                    args.receiver,
+                    args.assetId
                 ],
                 sender: pomaAccount.addr,
                 signer: pomaAccountSigner,
-                suggestedParams
+                suggestedParams,
+                appForeignAssets: [args.assetId]
             })
+            const txn = await atc.execute(this.algoClient, 4)
         }
         catch (error) {
             if (isLowFundsErr(error)) {
                 throw new Error("Low funds in the account")
             }
             throw new Error(`Error while sending reward: ${error}`)
+        }
+    }
+    async sendAlgoReward(amount: number, receiver: string) {
+        try {
+            const suggestedParams = await this.algoClient.getTransactionParams().do();
+            const atc = new algosdk.AtomicTransactionComposer();
+            atc.addMethodCall({
+                appID: Number.parseInt(process.env.APP_ID),
+                method: contract.getMethodByName("send_algo_reward"),
+                methodArgs: [
+                    amount,
+                    receiver
+                ],
+                sender: pomaAccount.addr,
+                signer: pomaAccountSigner,
+                suggestedParams
+            })
+            const txn = await atc.execute(this.algoClient, 4)
+
+        }
+        catch (error) {
+            throw new Error(`Error while sending ALGO reward: ${error}`)
         }
     }
 
