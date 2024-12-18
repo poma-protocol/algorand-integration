@@ -48,7 +48,7 @@ export default function FundTreasury() {
                     suggestedParams,
                     from: activeAddress!,
                     to: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!,
-                    amount: amount
+                    amount: algosdk.algosToMicroalgos(amount)
                 });
 
                 atc.addTransaction({ txn: payTxn, signer: transactionSigner });
