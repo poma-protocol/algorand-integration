@@ -10,10 +10,12 @@ import { Button } from "@/components/ui/button";
 import { WalletPopover } from "@/components/walletPopover";
 import { truncateAddress } from "@/utils/truncateAddress";
 import algosdk from "algosdk";
-import { hasContractOptedIn } from "@/utils/get-asset-details";
+import { getAssetDetails, hasContractOptedIn } from "@/utils/get-asset-details";
 import { contract } from "@/utils/algod-client";
 import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+
 // const formSchema = z.object({
 //     assetID: z.number({ message: "Asset ID must be a number" }),
 //     amount: z.number({ message: "Amount Must Be a number" }).gt(0, { message: "Amount Must Be Greater Than 0" })
@@ -27,6 +29,7 @@ type SendToTreasuryType = z.infer<typeof formSchema>
 export default function FundTreasury() {
     const { activeAddress, algodClient, transactionSigner, signTransactions } = useWallet();
     const [sendAlgo, setSendAlgo] = useState(false);
+    const {toast} = useToast();
     const form = useForm<SendToTreasuryType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -35,8 +38,16 @@ export default function FundTreasury() {
         }
     });
 
+    function displayError(message: string) {
+        toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: message
+        });
+    }
+
     async function onSubmit(values: SendToTreasuryType) {
-        const amount = Number.parseInt(values.amount);
+        const amount = Number.parseFloat(values.amount);
         const assetID = Number.parseInt(values.assetID);
 
         try {
@@ -53,21 +64,26 @@ export default function FundTreasury() {
 
                 atc.addTransaction({ txn: payTxn, signer: transactionSigner });
                 await atc.execute(algodClient, 4);
-                console.log("Done");
             } else {
+                // Get details of asset
+                const assetInfo = await getAssetDetails(algodClient, assetID);
+                const assetAmount = amount * (10 ** assetInfo.decimals);
+
                 const suggestedParams = await algodClient.getTransactionParams().do();
+                suggestedParams.fee = 4 * suggestedParams.fee
                 const atc = new algosdk.AtomicTransactionComposer();
 
                 const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
                     suggestedParams,
                     from: activeAddress!,
                     to: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!,
-                    amount: amount,
+                    amount: assetAmount,
                     assetIndex: assetID
                 });
 
                 let isOptedIn = await hasContractOptedIn(algodClient, process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!, assetID);
                 if (!isOptedIn) {
+                    
                     // Opt in
                     atc.addMethodCall({
                         appID: Number.parseInt(process.env.NEXT_PUBLIC_APP_ID!),
@@ -85,11 +101,19 @@ export default function FundTreasury() {
                 // Call transaction
                 atc.addTransaction({ txn, signer: transactionSigner });
                 await atc.execute(algodClient, 4);
-                console.log("Done");
             }
         } catch (err) {
-            console.log("Error Submitting Transaction =>", err);
-            throw new Error("Could Not Send Asset To Treasury")
+            if (err instanceof Error) {
+                if (err.message.includes("overspend")) {
+                    displayError("Insufficient Funds");
+                } else {
+                    console.log("Error =>", err);
+                    displayError("Something Went Wrong");
+                }
+            } else {
+                console.log("Error Submitting Transaction =>", err);
+                displayError("Something Went Wrong");
+            }
         }
     }
 

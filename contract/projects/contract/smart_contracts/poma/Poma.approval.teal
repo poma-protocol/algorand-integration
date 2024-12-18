@@ -1,9 +1,28 @@
 #pragma version 10
 
 smart_contracts.poma.contract.Poma.approval_program:
-    intcblock 0 1 4
+    intcblock 1 0 4
+    bytecblock "admin"
+    txn ApplicationID
+    bnz main_after_if_else@2
+    callsub __init__
+
+main_after_if_else@2:
     callsub __puya_arc4_router__
     return
+
+
+// smart_contracts.poma.contract.Poma.__init__() -> void:
+__init__:
+    // smart_contracts/poma/contract.py:6
+    // def __init__(self) -> None:
+    proto 0 0
+    // smart_contracts/poma/contract.py:8
+    // self.admin = Txn.sender
+    bytec_0 // "admin"
+    txn Sender
+    app_global_put
+    retsub
 
 
 // smart_contracts.poma.contract.Poma.__puya_arc4_router__() -> uint64:
@@ -12,15 +31,15 @@ __puya_arc4_router__:
     // class Poma(ARC4Contract):
     proto 0 1
     txn NumAppArgs
-    bz __puya_arc4_router___bare_routing@7
-    pushbytess 0x02bece11 0x3b6c3f57 0x4ae07b12 // method "hello(string)string", method "opt_in(uint64)void", method "send_reward(uint64,account,uint64)void"
+    bz __puya_arc4_router___bare_routing@8
+    pushbytess 0x02bece11 0x3b6c3f57 0x4ae07b12 0xfb200e09 // method "hello(string)string", method "opt_in(uint64)void", method "send_reward(uint64,account,uint64)void", method "send_algo_reward(uint64,account)void"
     txna ApplicationArgs 0
-    match __puya_arc4_router___hello_route@2 __puya_arc4_router___opt_in_route@3 __puya_arc4_router___send_reward_route@4
-    intc_0 // 0
+    match __puya_arc4_router___hello_route@2 __puya_arc4_router___opt_in_route@3 __puya_arc4_router___send_reward_route@4 __puya_arc4_router___send_algo_reward_route@5
+    intc_1 // 0
     retsub
 
 __puya_arc4_router___hello_route@2:
-    // smart_contracts/poma/contract.py:6
+    // smart_contracts/poma/contract.py:16
     // @abimethod()
     txn OnCompletion
     !
@@ -31,7 +50,7 @@ __puya_arc4_router___hello_route@2:
     // class Poma(ARC4Contract):
     txna ApplicationArgs 1
     extract 2 0
-    // smart_contracts/poma/contract.py:6
+    // smart_contracts/poma/contract.py:16
     // @abimethod()
     callsub hello
     dup
@@ -44,11 +63,11 @@ __puya_arc4_router___hello_route@2:
     swap
     concat
     log
-    intc_1 // 1
+    intc_0 // 1
     retsub
 
 __puya_arc4_router___opt_in_route@3:
-    // smart_contracts/poma/contract.py:10
+    // smart_contracts/poma/contract.py:20
     // @abimethod()
     txn OnCompletion
     !
@@ -59,14 +78,14 @@ __puya_arc4_router___opt_in_route@3:
     // class Poma(ARC4Contract):
     txna ApplicationArgs 1
     btoi
-    // smart_contracts/poma/contract.py:10
+    // smart_contracts/poma/contract.py:20
     // @abimethod()
     callsub opt_in
-    intc_1 // 1
+    intc_0 // 1
     retsub
 
 __puya_arc4_router___send_reward_route@4:
-    // smart_contracts/poma/contract.py:20
+    // smart_contracts/poma/contract.py:30
     // @abimethod
     txn OnCompletion
     !
@@ -82,37 +101,58 @@ __puya_arc4_router___send_reward_route@4:
     txnas Accounts
     txna ApplicationArgs 3
     btoi
-    // smart_contracts/poma/contract.py:20
+    // smart_contracts/poma/contract.py:30
     // @abimethod
     callsub send_reward
-    intc_1 // 1
+    intc_0 // 1
     retsub
 
-__puya_arc4_router___bare_routing@7:
+__puya_arc4_router___send_algo_reward_route@5:
+    // smart_contracts/poma/contract.py:43
+    // @abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/poma/contract.py:5
+    // class Poma(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txna ApplicationArgs 2
+    btoi
+    txnas Accounts
+    // smart_contracts/poma/contract.py:43
+    // @abimethod
+    callsub send_algo_reward
+    intc_0 // 1
+    retsub
+
+__puya_arc4_router___bare_routing@8:
     // smart_contracts/poma/contract.py:5
     // class Poma(ARC4Contract):
     txn OnCompletion
-    bnz __puya_arc4_router___after_if_else@11
+    bnz __puya_arc4_router___after_if_else@12
     txn ApplicationID
     !
     assert // can only call when creating
-    intc_1 // 1
+    intc_0 // 1
     retsub
 
-__puya_arc4_router___after_if_else@11:
+__puya_arc4_router___after_if_else@12:
     // smart_contracts/poma/contract.py:5
     // class Poma(ARC4Contract):
-    intc_0 // 0
+    intc_1 // 0
     retsub
 
 
 // smart_contracts.poma.contract.Poma.hello(name: bytes) -> bytes:
 hello:
-    // smart_contracts/poma/contract.py:6-7
+    // smart_contracts/poma/contract.py:16-17
     // @abimethod()
     // def hello(self, name: String) -> String:
     proto 1 1
-    // smart_contracts/poma/contract.py:8
+    // smart_contracts/poma/contract.py:18
     // return "Hello, " + name
     pushbytes "Hello, "
     frame_dig -1
@@ -122,45 +162,45 @@ hello:
 
 // smart_contracts.poma.contract.Poma.opt_in(assetID: uint64) -> void:
 opt_in:
-    // smart_contracts/poma/contract.py:10-11
+    // smart_contracts/poma/contract.py:20-21
     // @abimethod()
     // def opt_in(self, assetID: UInt64) -> None:
     proto 1 0
-    // smart_contracts/poma/contract.py:12-18
+    // smart_contracts/poma/contract.py:22-28
     // # Opt in to an asset
     // itxn.AssetTransfer(
     //     asset_amount=0,
     //     asset_receiver=Global.current_application_address,
     //     xfer_asset=assetID,
-    //     fee=0
+    //     fee=Global.min_txn_fee
     // ).submit()
     itxn_begin
-    // smart_contracts/poma/contract.py:15
+    // smart_contracts/poma/contract.py:27
+    // fee=Global.min_txn_fee
+    global MinTxnFee
+    // smart_contracts/poma/contract.py:25
     // asset_receiver=Global.current_application_address,
     global CurrentApplicationAddress
     frame_dig -1
     itxn_field XferAsset
     itxn_field AssetReceiver
-    // smart_contracts/poma/contract.py:14
+    // smart_contracts/poma/contract.py:24
     // asset_amount=0,
-    intc_0 // 0
+    intc_1 // 0
     itxn_field AssetAmount
-    // smart_contracts/poma/contract.py:12-13
+    // smart_contracts/poma/contract.py:22-23
     // # Opt in to an asset
     // itxn.AssetTransfer(
     intc_2 // axfer
     itxn_field TypeEnum
-    // smart_contracts/poma/contract.py:17
-    // fee=0
-    intc_0 // 0
     itxn_field Fee
-    // smart_contracts/poma/contract.py:12-18
+    // smart_contracts/poma/contract.py:22-28
     // # Opt in to an asset
     // itxn.AssetTransfer(
     //     asset_amount=0,
     //     asset_receiver=Global.current_application_address,
     //     xfer_asset=assetID,
-    //     fee=0
+    //     fee=Global.min_txn_fee
     // ).submit()
     itxn_submit
     retsub
@@ -168,41 +208,109 @@ opt_in:
 
 // smart_contracts.poma.contract.Poma.send_reward(amount: uint64, receiver: bytes, asset_id: uint64) -> void:
 send_reward:
-    // smart_contracts/poma/contract.py:20-21
+    // smart_contracts/poma/contract.py:30-31
     // @abimethod
     // def send_reward(self, amount: UInt64, receiver: Account, asset_id: UInt64) -> None:
     proto 3 0
-    // smart_contracts/poma/contract.py:22-28
+    // smart_contracts/poma/contract.py:32-33
+    // # Should only be called by creator
+    // self._check_if_admin()
+    callsub _check_if_admin
+    // smart_contracts/poma/contract.py:35-41
     // # Send asset
     // itxn.AssetTransfer(
     //     asset_amount=amount,
     //     asset_receiver=receiver,
     //     xfer_asset=asset_id,
-    //     fee=0
+    //     fee=Global.min_txn_fee
     // ).submit()
     itxn_begin
+    // smart_contracts/poma/contract.py:40
+    // fee=Global.min_txn_fee
+    global MinTxnFee
     frame_dig -1
     itxn_field XferAsset
     frame_dig -2
     itxn_field AssetReceiver
     frame_dig -3
     itxn_field AssetAmount
-    // smart_contracts/poma/contract.py:22-23
+    // smart_contracts/poma/contract.py:35-36
     // # Send asset
     // itxn.AssetTransfer(
     intc_2 // axfer
     itxn_field TypeEnum
-    // smart_contracts/poma/contract.py:27
-    // fee=0
-    intc_0 // 0
     itxn_field Fee
-    // smart_contracts/poma/contract.py:22-28
+    // smart_contracts/poma/contract.py:35-41
     // # Send asset
     // itxn.AssetTransfer(
     //     asset_amount=amount,
     //     asset_receiver=receiver,
     //     xfer_asset=asset_id,
-    //     fee=0
+    //     fee=Global.min_txn_fee
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.poma.contract.Poma._check_if_admin() -> void:
+_check_if_admin:
+    // smart_contracts/poma/contract.py:10-11
+    // @subroutine
+    // def _check_if_admin(self) -> None:
+    proto 0 0
+    // smart_contracts/poma/contract.py:13
+    // Txn.sender == self.admin
+    txn Sender
+    intc_1 // 0
+    bytec_0 // "admin"
+    app_global_get_ex
+    assert // check self.admin exists
+    ==
+    // smart_contracts/poma/contract.py:12-14
+    // assert(
+    //     Txn.sender == self.admin
+    // ), "Only the account the cretor of the account can call this function"
+    assert // Only the account the cretor of the account can call this function
+    retsub
+
+
+// smart_contracts.poma.contract.Poma.send_algo_reward(amount: uint64, receiver: bytes) -> void:
+send_algo_reward:
+    // smart_contracts/poma/contract.py:43-44
+    // @abimethod
+    // def send_algo_reward(self, amount: UInt64, receiver: Account) -> None:
+    proto 2 0
+    // smart_contracts/poma/contract.py:45-46
+    // # Should only be called by creator
+    // self._check_if_admin()
+    callsub _check_if_admin
+    // smart_contracts/poma/contract.py:48-53
+    // # Send ALGOs
+    // itxn.Payment(
+    //     amount=amount,
+    //     receiver=receiver,
+    //     fee=Global.min_txn_fee
+    // ).submit()
+    itxn_begin
+    // smart_contracts/poma/contract.py:52
+    // fee=Global.min_txn_fee
+    global MinTxnFee
+    frame_dig -1
+    itxn_field Receiver
+    frame_dig -2
+    itxn_field Amount
+    // smart_contracts/poma/contract.py:48-49
+    // # Send ALGOs
+    // itxn.Payment(
+    intc_0 // pay
+    itxn_field TypeEnum
+    itxn_field Fee
+    // smart_contracts/poma/contract.py:48-53
+    // # Send ALGOs
+    // itxn.Payment(
+    //     amount=amount,
+    //     receiver=receiver,
+    //     fee=Global.min_txn_fee
     // ).submit()
     itxn_submit
     retsub

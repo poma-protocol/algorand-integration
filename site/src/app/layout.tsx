@@ -7,6 +7,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import AppSidebar from "@/components/app-sidebar";
 
 import Footer from "@/components/footer";
+import { Toaster } from "@/components/ui/toaster";
 const geistSans = Geist({
     variable: "--font-geist-sans",
     subsets: ["latin"],
@@ -47,6 +48,8 @@ export default function RootLayout({
                                 <main className="flex-grow">
 
                                     {children}
+
+                                    <Toaster/>
 
                                 </main>
                             </div>
