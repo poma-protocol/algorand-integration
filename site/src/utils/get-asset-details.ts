@@ -16,7 +16,7 @@ export async function hasContractOptedIn(algodClient: algosdk.Algodv2, address: 
                 return false;
             }
         }
-        throw Error("Could Not Check If Contract Has Opted In");
+        throw new Error("Could Not Check If Contract Has Opted In");
     }
 }
 
@@ -30,6 +30,6 @@ export async function getAssetDetails(algodClient: algosdk.Algodv2, assetID: num
         }
     } catch(err) {
         console.log("Error Getting Asset Details =>", err);
-        throw Error("Could Not Get Asset Details")
+        throw new Error("Could Not Get Asset Details")
     }
 }
