@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { WalletPopover } from "@/components/walletPopover";
 import { truncateAddress } from "@/utils/truncateAddress";
 import algosdk from "algosdk";
-import { hasContractOptedIn } from "@/utils/get-asset-details";
+import { getAssetDetails, hasContractOptedIn } from "@/utils/get-asset-details";
 import { contract } from "@/utils/algod-client";
 import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
@@ -36,7 +36,7 @@ export default function FundTreasury() {
     });
 
     async function onSubmit(values: SendToTreasuryType) {
-        const amount = Number.parseInt(values.amount);
+        const amount = Number.parseFloat(values.amount);
         const assetID = Number.parseInt(values.assetID);
 
         try {
@@ -53,21 +53,26 @@ export default function FundTreasury() {
 
                 atc.addTransaction({ txn: payTxn, signer: transactionSigner });
                 await atc.execute(algodClient, 4);
-                console.log("Done");
             } else {
+                // Get details of asset
+                const assetInfo = await getAssetDetails(algodClient, assetID);
+                const assetAmount = amount * (10 ** assetInfo.decimals);
+
                 const suggestedParams = await algodClient.getTransactionParams().do();
+                suggestedParams.fee = 4 * suggestedParams.fee
                 const atc = new algosdk.AtomicTransactionComposer();
 
                 const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
                     suggestedParams,
                     from: activeAddress!,
                     to: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!,
-                    amount: amount,
+                    amount: assetAmount,
                     assetIndex: assetID
                 });
 
                 let isOptedIn = await hasContractOptedIn(algodClient, process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!, assetID);
                 if (!isOptedIn) {
+                    
                     // Opt in
                     atc.addMethodCall({
                         appID: Number.parseInt(process.env.NEXT_PUBLIC_APP_ID!),
@@ -85,7 +90,6 @@ export default function FundTreasury() {
                 // Call transaction
                 atc.addTransaction({ txn, signer: transactionSigner });
                 await atc.execute(algodClient, 4);
-                console.log("Done");
             }
         } catch (err) {
             console.log("Error Submitting Transaction =>", err);
