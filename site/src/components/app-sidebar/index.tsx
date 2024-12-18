@@ -51,9 +51,7 @@ const Sidebar = () => {
                         <li
                             key={index}
                             onClick={() => setActivePage(Menu.title)}
-                            className={`flex rounded-md p-2 cursor-pointer hover:bg-gray-200 text-black text-sm items-center gap-x-4 ${
-                                Menu?.gap ? "mt-9" : "mt-2"
-                            } ${activePage === Menu.title ? "bg-gray-300" : ""}`}
+                            className={`flex rounded-md p-2 cursor-pointer hover:bg-gray-200 text-black text-sm items-center gap-x-4 mt-2  ${activePage === Menu.title ? "bg-gray-300" : ""}`}
                         >
                             <Menu.Icon size={20} />
                             <span
