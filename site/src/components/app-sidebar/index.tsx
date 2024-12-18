@@ -36,7 +36,7 @@ const Sidebar = () => {
             <div
                 className={`${
                     open ? "w-72" : "w-20"
-                } bg-white border-r border-black p-5 pt-8 relative duration-300`}
+                } bg-white border-r border-black p-5 pt-8 relative duration-300 -z-10`}
             >
                 <div className="flex gap-x-4 items-center">
                     <h1
