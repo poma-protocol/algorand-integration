@@ -14,6 +14,8 @@ import { getAssetDetails, hasContractOptedIn } from "@/utils/get-asset-details";
 import { contract } from "@/utils/algod-client";
 import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+
 // const formSchema = z.object({
 //     assetID: z.number({ message: "Asset ID must be a number" }),
 //     amount: z.number({ message: "Amount Must Be a number" }).gt(0, { message: "Amount Must Be Greater Than 0" })
@@ -27,6 +29,7 @@ type SendToTreasuryType = z.infer<typeof formSchema>
 export default function FundTreasury() {
     const { activeAddress, algodClient, transactionSigner, signTransactions } = useWallet();
     const [sendAlgo, setSendAlgo] = useState(false);
+    const {toast} = useToast();
     const form = useForm<SendToTreasuryType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -34,6 +37,14 @@ export default function FundTreasury() {
             assetID: ""
         }
     });
+
+    function displayError(message: string) {
+        toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: message
+        });
+    }
 
     async function onSubmit(values: SendToTreasuryType) {
         const amount = Number.parseFloat(values.amount);
@@ -92,8 +103,17 @@ export default function FundTreasury() {
                 await atc.execute(algodClient, 4);
             }
         } catch (err) {
-            console.log("Error Submitting Transaction =>", err);
-            throw new Error("Could Not Send Asset To Treasury")
+            if (err instanceof Error) {
+                if (err.message.includes("overspend")) {
+                    displayError("Insufficient Funds");
+                } else {
+                    console.log("Error =>", err);
+                    displayError("Something Went Wrong");
+                }
+            } else {
+                console.log("Error Submitting Transaction =>", err);
+                displayError("Something Went Wrong");
+            }
         }
     }
 
