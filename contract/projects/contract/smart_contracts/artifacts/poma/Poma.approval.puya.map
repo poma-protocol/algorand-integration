@@ -3,7 +3,7 @@
   "sources": [
     "../../poma/contract.py"
   ],
-  "mappings": ";;;;;;;;;;AAIA;;;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;AAAA;AAAA;AACK;;AAAA;AAAA;AAAA;;AAAA;AADL;;;AAAA;;;AACK;;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAIA;;AAAA;AAAA;AAAA;;AAAA;AALL;;;AAAA;AAKK;;;AAAA;AAAA;AAUA;;AAAA;AAAA;AAAA;;AAAA;AAfL;;;AAAA;AAAA;;;AAAA;AAAA;;AAAA;;;AAAA;AAeK;;;AAAA;AAAA;AAUA;;AAAA;AAAA;AAAA;;AAAA;AAzBL;;;AAAA;AAAA;;;AAAA;AAAA;;AAyBK;;;AAAA;AAAA;AAzBL;;AAAA;;;;;;;;;AAAA;AAAA;AACA;;;AAEe;;;;;;;;;AAAA;;AAAA;AAAP;AAER;;;AAGQ;AAIQ;;AAFW;;;;;;;;AADF;;;AADjB;;;;;AAAA;;AAOR;;;AAGQ;AAIQ;;;;;;;;;;;;;;AAJR;;;;;AAAA;;AAOR;;;AAGQ;AAGQ;;;;;;;;;;AAHR;;;;;AAAA;",
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;AAKA;;;AAEQ;AAAa;;AAAb;;AAHR;;;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;AAAA;AAAA;AAWK;;AAAA;AAAA;AAAA;;AAAA;AAXL;;;AAAA;;;AAWK;;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAIA;;AAAA;AAAA;AAAA;;AAAA;AAfL;;;AAAA;AAeK;;;AAAA;AAAA;AAUA;;AAAA;AAAA;AAAA;;AAAA;AAzBL;;;AAAA;AAAA;;;AAAA;AAAA;;AAAA;;;AAAA;AAyBK;;;AAAA;AAAA;AAaA;;AAAA;AAAA;AAAA;;AAAA;AAtCL;;;AAAA;AAAA;;;AAAA;AAAA;;AAsCK;;;AAAA;AAAA;AAtCL;;AAAA;;;;;;;;;AAAA;AAAA;AAWA;;;AAEe;;;;;;;;;AAAA;;AAAA;AAAP;AAER;;;AAGQ;AAIQ;;AAFW;;;;;;;;AADF;;;AADjB;;;;;AAAA;;AAOR;;;AAGQ;;;AAGA;AAIQ;;;;;;;;;;;;;;AAJR;;;;;AAAA;;AA1BR;;;AAGY;;AAAc;AAAA;AAAA;AAAA;AAAd;AADJ;;AA+BR;;;AAGQ;;;AAGA;AAGQ;;;;;;;;;;AAHR;;;;;AAAA;",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -14,8 +14,10 @@
       "op": "intcblock 1 0 4"
     },
     "6": {
-      "callsub": "smart_contracts.poma.contract.Poma.__puya_arc4_router__",
-      "op": "callsub __puya_arc4_router__",
+      "op": "bytecblock \"admin\""
+    },
+    "14": {
+      "op": "txn ApplicationID",
       "defined_out": [
         "tmp%0#0"
       ],
@@ -23,18 +25,67 @@
         "tmp%0#0"
       ]
     },
-    "9": {
+    "16": {
+      "op": "bnz main_after_if_else@2",
+      "stack_out": []
+    },
+    "19": {
+      "callsub": "smart_contracts.poma.contract.Poma.__init__",
+      "op": "callsub __init__"
+    },
+    "22": {
+      "block": "main_after_if_else@2",
+      "stack_in": [],
+      "callsub": "smart_contracts.poma.contract.Poma.__puya_arc4_router__",
+      "op": "callsub __puya_arc4_router__",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "25": {
       "op": "return",
       "stack_out": []
     },
-    "10": {
+    "26": {
+      "subroutine": "smart_contracts.poma.contract.Poma.__init__",
+      "params": {},
+      "block": "__init__",
+      "stack_in": [],
+      "op": "proto 0 0"
+    },
+    "29": {
+      "op": "bytec_0 // \"admin\""
+    },
+    "30": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"admin\"",
+        "new_state_value%0#0"
+      ],
+      "stack_out": [
+        "\"admin\"",
+        "new_state_value%0#0"
+      ]
+    },
+    "32": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "33": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "34": {
       "subroutine": "smart_contracts.poma.contract.Poma.__puya_arc4_router__",
       "params": {},
       "block": "__puya_arc4_router__",
       "stack_in": [],
       "op": "proto 0 1"
     },
-    "13": {
+    "37": {
       "op": "txn NumAppArgs",
       "defined_out": [
         "tmp%0#0"
@@ -43,14 +94,14 @@
         "tmp%0#0"
       ]
     },
-    "15": {
+    "39": {
       "op": "bz __puya_arc4_router___bare_routing@8",
       "stack_out": []
     },
-    "18": {
+    "42": {
       "op": "pushbytess 0x02bece11 0x3b6c3f57 0x4ae07b12 0xfb200e09 // method \"hello(string)string\", method \"opt_in(uint64)void\", method \"send_reward(uint64,account,uint64)void\", method \"send_algo_reward(uint64,account)void\""
     },
-    "40": {
+    "64": {
       "op": "txna ApplicationArgs 0",
       "defined_out": [
         "Method(hello(string)string)",
@@ -67,11 +118,11 @@
         "tmp%2#0"
       ]
     },
-    "43": {
+    "67": {
       "op": "match __puya_arc4_router___hello_route@2 __puya_arc4_router___opt_in_route@3 __puya_arc4_router___send_reward_route@4 __puya_arc4_router___send_algo_reward_route@5",
       "stack_out": []
     },
-    "53": {
+    "77": {
       "op": "intc_1 // 0",
       "defined_out": [
         "0"
@@ -80,11 +131,11 @@
         "0"
       ]
     },
-    "54": {
+    "78": {
       "retsub": true,
       "op": "retsub"
     },
-    "55": {
+    "79": {
       "block": "__puya_arc4_router___hello_route@2",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -95,7 +146,7 @@
         "tmp%3#0"
       ]
     },
-    "57": {
+    "81": {
       "op": "!",
       "defined_out": [
         "tmp%4#0"
@@ -104,12 +155,12 @@
         "tmp%4#0"
       ]
     },
-    "58": {
+    "82": {
       "error": "OnCompletion is not NoOp",
       "op": "assert // OnCompletion is not NoOp",
       "stack_out": []
     },
-    "59": {
+    "83": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%5#0"
@@ -118,12 +169,12 @@
         "tmp%5#0"
       ]
     },
-    "61": {
+    "85": {
       "error": "can only call when not creating",
       "op": "assert // can only call when not creating",
       "stack_out": []
     },
-    "62": {
+    "86": {
       "op": "txna ApplicationArgs 1",
       "defined_out": [
         "tmp%7#0"
@@ -132,7 +183,7 @@
         "tmp%7#0"
       ]
     },
-    "65": {
+    "89": {
       "op": "extract 2 0",
       "defined_out": [
         "tmp%8#0"
@@ -141,7 +192,7 @@
         "tmp%8#0"
       ]
     },
-    "68": {
+    "92": {
       "callsub": "smart_contracts.poma.contract.Poma.hello",
       "op": "callsub hello",
       "defined_out": [
@@ -151,7 +202,7 @@
         "to_encode%0#0"
       ]
     },
-    "71": {
+    "95": {
       "op": "dup",
       "defined_out": [
         "to_encode%0#0",
@@ -162,7 +213,7 @@
         "to_encode%0#0 (copy)"
       ]
     },
-    "72": {
+    "96": {
       "op": "len",
       "defined_out": [
         "length%0#0",
@@ -173,7 +224,7 @@
         "length%0#0"
       ]
     },
-    "73": {
+    "97": {
       "op": "itob",
       "defined_out": [
         "as_bytes%0#0",
@@ -184,7 +235,7 @@
         "as_bytes%0#0"
       ]
     },
-    "74": {
+    "98": {
       "op": "extract 6 2",
       "defined_out": [
         "length_uint16%0#0",
@@ -195,14 +246,14 @@
         "length_uint16%0#0"
       ]
     },
-    "77": {
+    "101": {
       "op": "swap",
       "stack_out": [
         "length_uint16%0#0",
         "to_encode%0#0"
       ]
     },
-    "78": {
+    "102": {
       "op": "concat",
       "defined_out": [
         "encoded_value%0#0"
@@ -211,7 +262,7 @@
         "encoded_value%0#0"
       ]
     },
-    "79": {
+    "103": {
       "op": "pushbytes 0x151f7c75",
       "defined_out": [
         "0x151f7c75",
@@ -222,14 +273,14 @@
         "0x151f7c75"
       ]
     },
-    "85": {
+    "109": {
       "op": "swap",
       "stack_out": [
         "0x151f7c75",
         "encoded_value%0#0"
       ]
     },
-    "86": {
+    "110": {
       "op": "concat",
       "defined_out": [
         "tmp%9#0"
@@ -238,11 +289,11 @@
         "tmp%9#0"
       ]
     },
-    "87": {
+    "111": {
       "op": "log",
       "stack_out": []
     },
-    "88": {
+    "112": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1"
@@ -251,11 +302,11 @@
         "1"
       ]
     },
-    "89": {
+    "113": {
       "retsub": true,
       "op": "retsub"
     },
-    "90": {
+    "114": {
       "block": "__puya_arc4_router___opt_in_route@3",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -266,7 +317,7 @@
         "tmp%10#0"
       ]
     },
-    "92": {
+    "116": {
       "op": "!",
       "defined_out": [
         "tmp%11#0"
@@ -275,12 +326,12 @@
         "tmp%11#0"
       ]
     },
-    "93": {
+    "117": {
       "error": "OnCompletion is not NoOp",
       "op": "assert // OnCompletion is not NoOp",
       "stack_out": []
     },
-    "94": {
+    "118": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%12#0"
@@ -289,12 +340,12 @@
         "tmp%12#0"
       ]
     },
-    "96": {
+    "120": {
       "error": "can only call when not creating",
       "op": "assert // can only call when not creating",
       "stack_out": []
     },
-    "97": {
+    "121": {
       "op": "txna ApplicationArgs 1",
       "defined_out": [
         "tmp%14#0"
@@ -303,7 +354,7 @@
         "tmp%14#0"
       ]
     },
-    "100": {
+    "124": {
       "op": "btoi",
       "defined_out": [
         "tmp%15#0"
@@ -312,12 +363,12 @@
         "tmp%15#0"
       ]
     },
-    "101": {
+    "125": {
       "callsub": "smart_contracts.poma.contract.Poma.opt_in",
       "op": "callsub opt_in",
       "stack_out": []
     },
-    "104": {
+    "128": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1"
@@ -326,11 +377,11 @@
         "1"
       ]
     },
-    "105": {
+    "129": {
       "retsub": true,
       "op": "retsub"
     },
-    "106": {
+    "130": {
       "block": "__puya_arc4_router___send_reward_route@4",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -341,7 +392,7 @@
         "tmp%16#0"
       ]
     },
-    "108": {
+    "132": {
       "op": "!",
       "defined_out": [
         "tmp%17#0"
@@ -350,12 +401,12 @@
         "tmp%17#0"
       ]
     },
-    "109": {
+    "133": {
       "error": "OnCompletion is not NoOp",
       "op": "assert // OnCompletion is not NoOp",
       "stack_out": []
     },
-    "110": {
+    "134": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%18#0"
@@ -364,12 +415,12 @@
         "tmp%18#0"
       ]
     },
-    "112": {
+    "136": {
       "error": "can only call when not creating",
       "op": "assert // can only call when not creating",
       "stack_out": []
     },
-    "113": {
+    "137": {
       "op": "txna ApplicationArgs 1",
       "defined_out": [
         "tmp%20#0"
@@ -378,7 +429,7 @@
         "tmp%20#0"
       ]
     },
-    "116": {
+    "140": {
       "op": "btoi",
       "defined_out": [
         "tmp%21#0"
@@ -387,7 +438,7 @@
         "tmp%21#0"
       ]
     },
-    "117": {
+    "141": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
         "tmp%21#0",
@@ -398,7 +449,7 @@
         "tmp%22#0"
       ]
     },
-    "120": {
+    "144": {
       "op": "btoi",
       "defined_out": [
         "tmp%21#0",
@@ -409,7 +460,7 @@
         "tmp%23#0"
       ]
     },
-    "121": {
+    "145": {
       "op": "txnas Accounts",
       "defined_out": [
         "tmp%21#0",
@@ -420,7 +471,7 @@
         "tmp%24#0"
       ]
     },
-    "123": {
+    "147": {
       "op": "txna ApplicationArgs 3",
       "defined_out": [
         "tmp%21#0",
@@ -433,7 +484,7 @@
         "tmp%25#0"
       ]
     },
-    "126": {
+    "150": {
       "op": "btoi",
       "defined_out": [
         "tmp%21#0",
@@ -446,12 +497,12 @@
         "tmp%26#0"
       ]
     },
-    "127": {
+    "151": {
       "callsub": "smart_contracts.poma.contract.Poma.send_reward",
       "op": "callsub send_reward",
       "stack_out": []
     },
-    "130": {
+    "154": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1"
@@ -460,11 +511,11 @@
         "1"
       ]
     },
-    "131": {
+    "155": {
       "retsub": true,
       "op": "retsub"
     },
-    "132": {
+    "156": {
       "block": "__puya_arc4_router___send_algo_reward_route@5",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -475,7 +526,7 @@
         "tmp%27#0"
       ]
     },
-    "134": {
+    "158": {
       "op": "!",
       "defined_out": [
         "tmp%28#0"
@@ -484,12 +535,12 @@
         "tmp%28#0"
       ]
     },
-    "135": {
+    "159": {
       "error": "OnCompletion is not NoOp",
       "op": "assert // OnCompletion is not NoOp",
       "stack_out": []
     },
-    "136": {
+    "160": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%29#0"
@@ -498,12 +549,12 @@
         "tmp%29#0"
       ]
     },
-    "138": {
+    "162": {
       "error": "can only call when not creating",
       "op": "assert // can only call when not creating",
       "stack_out": []
     },
-    "139": {
+    "163": {
       "op": "txna ApplicationArgs 1",
       "defined_out": [
         "tmp%31#0"
@@ -512,7 +563,7 @@
         "tmp%31#0"
       ]
     },
-    "142": {
+    "166": {
       "op": "btoi",
       "defined_out": [
         "tmp%32#0"
@@ -521,7 +572,7 @@
         "tmp%32#0"
       ]
     },
-    "143": {
+    "167": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
         "tmp%32#0",
@@ -532,7 +583,7 @@
         "tmp%33#0"
       ]
     },
-    "146": {
+    "170": {
       "op": "btoi",
       "defined_out": [
         "tmp%32#0",
@@ -543,7 +594,7 @@
         "tmp%34#0"
       ]
     },
-    "147": {
+    "171": {
       "op": "txnas Accounts",
       "defined_out": [
         "tmp%32#0",
@@ -554,12 +605,12 @@
         "tmp%35#0"
       ]
     },
-    "149": {
+    "173": {
       "callsub": "smart_contracts.poma.contract.Poma.send_algo_reward",
       "op": "callsub send_algo_reward",
       "stack_out": []
     },
-    "152": {
+    "176": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1"
@@ -568,11 +619,11 @@
         "1"
       ]
     },
-    "153": {
+    "177": {
       "retsub": true,
       "op": "retsub"
     },
-    "154": {
+    "178": {
       "block": "__puya_arc4_router___bare_routing@8",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -583,11 +634,11 @@
         "tmp%36#0"
       ]
     },
-    "156": {
+    "180": {
       "op": "bnz __puya_arc4_router___after_if_else@12",
       "stack_out": []
     },
-    "159": {
+    "183": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%37#0"
@@ -596,7 +647,7 @@
         "tmp%37#0"
       ]
     },
-    "161": {
+    "185": {
       "op": "!",
       "defined_out": [
         "tmp%38#0"
@@ -605,12 +656,12 @@
         "tmp%38#0"
       ]
     },
-    "162": {
+    "186": {
       "error": "can only call when creating",
       "op": "assert // can only call when creating",
       "stack_out": []
     },
-    "163": {
+    "187": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1"
@@ -619,11 +670,11 @@
         "1"
       ]
     },
-    "164": {
+    "188": {
       "retsub": true,
       "op": "retsub"
     },
-    "165": {
+    "189": {
       "block": "__puya_arc4_router___after_if_else@12",
       "stack_in": [],
       "op": "intc_1 // 0",
@@ -634,11 +685,11 @@
         "0"
       ]
     },
-    "166": {
+    "190": {
       "retsub": true,
       "op": "retsub"
     },
-    "167": {
+    "191": {
       "subroutine": "smart_contracts.poma.contract.Poma.hello",
       "params": {
         "name#0": "bytes"
@@ -647,7 +698,7 @@
       "stack_in": [],
       "op": "proto 1 1"
     },
-    "170": {
+    "194": {
       "op": "pushbytes \"Hello, \"",
       "defined_out": [
         "\"Hello, \""
@@ -656,7 +707,7 @@
         "\"Hello, \""
       ]
     },
-    "179": {
+    "203": {
       "op": "frame_dig -1",
       "defined_out": [
         "\"Hello, \"",
@@ -667,7 +718,7 @@
         "name#0 (copy)"
       ]
     },
-    "181": {
+    "205": {
       "op": "concat",
       "defined_out": [
         "tmp%0#0"
@@ -676,11 +727,11 @@
         "tmp%0#0"
       ]
     },
-    "182": {
+    "206": {
       "retsub": true,
       "op": "retsub"
     },
-    "183": {
+    "207": {
       "subroutine": "smart_contracts.poma.contract.Poma.opt_in",
       "params": {
         "assetID#0": "uint64"
@@ -688,111 +739,6 @@
       "block": "opt_in",
       "stack_in": [],
       "op": "proto 1 0"
-    },
-    "186": {
-      "op": "itxn_begin"
-    },
-    "187": {
-      "op": "global MinTxnFee",
-      "defined_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0"
-      ],
-      "stack_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0"
-      ]
-    },
-    "189": {
-      "op": "global CurrentApplicationAddress",
-      "defined_out": [
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
-        "inner_txn_params%0%%param_Fee_idx_0#0"
-      ],
-      "stack_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0",
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
-      ]
-    },
-    "191": {
-      "op": "frame_dig -1",
-      "defined_out": [
-        "assetID#0 (copy)",
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
-        "inner_txn_params%0%%param_Fee_idx_0#0"
-      ],
-      "stack_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0",
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
-        "assetID#0 (copy)"
-      ]
-    },
-    "193": {
-      "op": "itxn_field XferAsset",
-      "stack_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0",
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
-      ]
-    },
-    "195": {
-      "op": "itxn_field AssetReceiver",
-      "stack_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0"
-      ]
-    },
-    "197": {
-      "op": "intc_1 // 0",
-      "defined_out": [
-        "0",
-        "inner_txn_params%0%%param_Fee_idx_0#0"
-      ],
-      "stack_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0",
-        "0"
-      ]
-    },
-    "198": {
-      "op": "itxn_field AssetAmount",
-      "stack_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0"
-      ]
-    },
-    "200": {
-      "op": "intc_2 // axfer",
-      "defined_out": [
-        "axfer",
-        "inner_txn_params%0%%param_Fee_idx_0#0"
-      ],
-      "stack_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0",
-        "axfer"
-      ]
-    },
-    "201": {
-      "op": "itxn_field TypeEnum",
-      "stack_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0"
-      ]
-    },
-    "203": {
-      "op": "itxn_field Fee",
-      "stack_out": []
-    },
-    "205": {
-      "op": "itxn_submit"
-    },
-    "206": {
-      "retsub": true,
-      "op": "retsub"
-    },
-    "207": {
-      "subroutine": "smart_contracts.poma.contract.Poma.send_reward",
-      "params": {
-        "amount#0": "uint64",
-        "receiver#0": "bytes",
-        "asset_id#0": "uint64"
-      },
-      "block": "send_reward",
-      "stack_in": [],
-      "op": "proto 3 0"
     },
     "210": {
       "op": "itxn_begin"
@@ -807,31 +753,34 @@
       ]
     },
     "213": {
-      "op": "frame_dig -1",
+      "op": "global CurrentApplicationAddress",
       "defined_out": [
-        "asset_id#0 (copy)",
+        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
         "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0",
-        "asset_id#0 (copy)"
+        "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ]
     },
     "215": {
-      "op": "itxn_field XferAsset",
-      "stack_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0"
-      ]
-    },
-    "217": {
-      "op": "frame_dig -2",
+      "op": "frame_dig -1",
       "defined_out": [
-        "inner_txn_params%0%%param_Fee_idx_0#0",
-        "receiver#0 (copy)"
+        "assetID#0 (copy)",
+        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0",
-        "receiver#0 (copy)"
+        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
+        "assetID#0 (copy)"
+      ]
+    },
+    "217": {
+      "op": "itxn_field XferAsset",
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ]
     },
     "219": {
@@ -841,23 +790,23 @@
       ]
     },
     "221": {
-      "op": "frame_dig -3",
+      "op": "intc_1 // 0",
       "defined_out": [
-        "amount#0 (copy)",
+        "0",
         "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0",
-        "amount#0 (copy)"
+        "0"
       ]
     },
-    "223": {
+    "222": {
       "op": "itxn_field AssetAmount",
       "stack_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
-    "225": {
+    "224": {
       "op": "intc_2 // axfer",
       "defined_out": [
         "axfer",
@@ -868,24 +817,209 @@
         "axfer"
       ]
     },
-    "226": {
+    "225": {
       "op": "itxn_field TypeEnum",
       "stack_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
-    "228": {
+    "227": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "230": {
+    "229": {
       "op": "itxn_submit"
     },
-    "231": {
+    "230": {
       "retsub": true,
       "op": "retsub"
     },
-    "232": {
+    "231": {
+      "subroutine": "smart_contracts.poma.contract.Poma.send_reward",
+      "params": {
+        "amount#0": "uint64",
+        "receiver#0": "bytes",
+        "asset_id#0": "uint64"
+      },
+      "block": "send_reward",
+      "stack_in": [],
+      "op": "proto 3 0"
+    },
+    "234": {
+      "callsub": "smart_contracts.poma.contract.Poma._check_if_admin",
+      "op": "callsub _check_if_admin"
+    },
+    "237": {
+      "op": "itxn_begin"
+    },
+    "238": {
+      "op": "global MinTxnFee",
+      "defined_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
+    },
+    "240": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "asset_id#0 (copy)",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "asset_id#0 (copy)"
+      ]
+    },
+    "242": {
+      "op": "itxn_field XferAsset",
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
+    },
+    "244": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "receiver#0 (copy)"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "receiver#0 (copy)"
+      ]
+    },
+    "246": {
+      "op": "itxn_field AssetReceiver",
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
+    },
+    "248": {
+      "op": "frame_dig -3",
+      "defined_out": [
+        "amount#0 (copy)",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "amount#0 (copy)"
+      ]
+    },
+    "250": {
+      "op": "itxn_field AssetAmount",
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
+    },
+    "252": {
+      "op": "intc_2 // axfer",
+      "defined_out": [
+        "axfer",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "axfer"
+      ]
+    },
+    "253": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
+    },
+    "255": {
+      "op": "itxn_field Fee",
+      "stack_out": []
+    },
+    "257": {
+      "op": "itxn_submit"
+    },
+    "258": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "259": {
+      "subroutine": "smart_contracts.poma.contract.Poma._check_if_admin",
+      "params": {},
+      "block": "_check_if_admin",
+      "stack_in": [],
+      "op": "proto 0 0"
+    },
+    "262": {
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "264": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0"
+      ]
+    },
+    "265": {
+      "op": "bytec_0 // \"admin\"",
+      "defined_out": [
+        "\"admin\"",
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0",
+        "\"admin\""
+      ]
+    },
+    "266": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "267": {
+      "error": "check self.admin exists",
+      "op": "assert // check self.admin exists",
+      "stack_out": [
+        "tmp%0#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "268": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "269": {
+      "error": "Only the account the cretor of the account can call this function",
+      "op": "assert // Only the account the cretor of the account can call this function",
+      "stack_out": []
+    },
+    "270": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "271": {
       "subroutine": "smart_contracts.poma.contract.Poma.send_algo_reward",
       "params": {
         "amount#0": "uint64",
@@ -895,10 +1029,14 @@
       "stack_in": [],
       "op": "proto 2 0"
     },
-    "235": {
+    "274": {
+      "callsub": "smart_contracts.poma.contract.Poma._check_if_admin",
+      "op": "callsub _check_if_admin"
+    },
+    "277": {
       "op": "itxn_begin"
     },
-    "236": {
+    "278": {
       "op": "global MinTxnFee",
       "defined_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0"
@@ -907,7 +1045,7 @@
         "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
-    "238": {
+    "280": {
       "op": "frame_dig -1",
       "defined_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0",
@@ -918,13 +1056,13 @@
         "receiver#0 (copy)"
       ]
     },
-    "240": {
+    "282": {
       "op": "itxn_field Receiver",
       "stack_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
-    "242": {
+    "284": {
       "op": "frame_dig -2",
       "defined_out": [
         "amount#0 (copy)",
@@ -935,13 +1073,13 @@
         "amount#0 (copy)"
       ]
     },
-    "244": {
+    "286": {
       "op": "itxn_field Amount",
       "stack_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
-    "246": {
+    "288": {
       "op": "intc_0 // pay",
       "defined_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0",
@@ -952,20 +1090,20 @@
         "pay"
       ]
     },
-    "247": {
+    "289": {
       "op": "itxn_field TypeEnum",
       "stack_out": [
         "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
-    "249": {
+    "291": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "251": {
+    "293": {
       "op": "itxn_submit"
     },
-    "252": {
+    "294": {
       "retsub": true,
       "op": "retsub"
     }
