@@ -3,7 +3,7 @@
   "sources": [
     "../../poma/contract.py"
   ],
-  "mappings": ";;;;;;;;;;AAIA;;;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;AAAA;AAAA;AACK;;AAAA;AAAA;AAAA;;AAAA;AADL;;;AAAA;;;AACK;;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAIA;;AAAA;AAAA;AAAA;;AAAA;AALL;;;AAAA;AAKK;;;AAAA;AAAA;AAUA;;AAAA;AAAA;AAAA;;AAAA;AAfL;;;AAAA;AAAA;;;AAAA;AAAA;;AAAA;;;AAAA;AAeK;;;AAAA;AAAA;AAUA;;AAAA;AAAA;AAAA;;AAAA;AAzBL;;;AAAA;AAAA;;;AAAA;AAAA;;AAyBK;;;AAAA;AAAA;AAzBL;;AAAA;;;;;;;;;AAAA;AAAA;AACA;;;AAEe;;;;;;;;;AAAA;;AAAA;AAAP;AAER;;;AAGQ;AAEmB;;;;;;;;AADF;;;AADjB;;;AAIQ;;;AAJR;;AAOR;;;AAGQ;;;;;;;;;;;;;AAAA;;;AAIQ;;;AAJR;;AAOR;;;AAGQ;;;;;;;;;AAAA;;;AAGQ;;;AAHR;",
+  "mappings": ";;;;;;;;;;AAIA;;;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;AAAA;AAAA;AACK;;AAAA;AAAA;AAAA;;AAAA;AADL;;;AAAA;;;AACK;;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAIA;;AAAA;AAAA;AAAA;;AAAA;AALL;;;AAAA;AAKK;;;AAAA;AAAA;AAUA;;AAAA;AAAA;AAAA;;AAAA;AAfL;;;AAAA;AAAA;;;AAAA;AAAA;;AAAA;;;AAAA;AAeK;;;AAAA;AAAA;AAUA;;AAAA;AAAA;AAAA;;AAAA;AAzBL;;;AAAA;AAAA;;;AAAA;AAAA;;AAyBK;;;AAAA;AAAA;AAzBL;;AAAA;;;;;;;;;AAAA;AAAA;AACA;;;AAEe;;;;;;;;;AAAA;;AAAA;AAAP;AAER;;;AAGQ;AAIQ;;AAFW;;;;;;;;AADF;;;AADjB;;;;;AAAA;;AAOR;;;AAGQ;AAIQ;;;;;;;;;;;;;;AAJR;;;;;AAAA;;AAOR;;;AAGQ;AAGQ;;;;;;;;;;AAHR;;;;;AAAA;",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -11,7 +11,7 @@
       "params": {},
       "block": "smart_contracts.poma.contract.Poma.approval_program",
       "stack_in": [],
-      "op": "intcblock 0 1 4"
+      "op": "intcblock 1 0 4"
     },
     "6": {
       "callsub": "smart_contracts.poma.contract.Poma.__puya_arc4_router__",
@@ -72,7 +72,7 @@
       "stack_out": []
     },
     "53": {
-      "op": "intc_0 // 0",
+      "op": "intc_1 // 0",
       "defined_out": [
         "0"
       ],
@@ -243,7 +243,7 @@
       "stack_out": []
     },
     "88": {
-      "op": "intc_1 // 1",
+      "op": "intc_0 // 1",
       "defined_out": [
         "1"
       ],
@@ -318,7 +318,7 @@
       "stack_out": []
     },
     "104": {
-      "op": "intc_1 // 1",
+      "op": "intc_0 // 1",
       "defined_out": [
         "1"
       ],
@@ -452,7 +452,7 @@
       "stack_out": []
     },
     "130": {
-      "op": "intc_1 // 1",
+      "op": "intc_0 // 1",
       "defined_out": [
         "1"
       ],
@@ -560,7 +560,7 @@
       "stack_out": []
     },
     "152": {
-      "op": "intc_1 // 1",
+      "op": "intc_0 // 1",
       "defined_out": [
         "1"
       ],
@@ -611,7 +611,7 @@
       "stack_out": []
     },
     "163": {
-      "op": "intc_1 // 1",
+      "op": "intc_0 // 1",
       "defined_out": [
         "1"
       ],
@@ -626,7 +626,7 @@
     "165": {
       "block": "__puya_arc4_router___after_if_else@12",
       "stack_in": [],
-      "op": "intc_0 // 0",
+      "op": "intc_1 // 0",
       "defined_out": [
         "0"
       ],
@@ -693,79 +693,97 @@
       "op": "itxn_begin"
     },
     "187": {
-      "op": "global CurrentApplicationAddress",
+      "op": "global MinTxnFee",
       "defined_out": [
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
     "189": {
+      "op": "global CurrentApplicationAddress",
+      "defined_out": [
+        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
+      ]
+    },
+    "191": {
       "op": "frame_dig -1",
       "defined_out": [
         "assetID#0 (copy)",
-        "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
+        "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
         "assetID#0 (copy)"
       ]
     },
-    "191": {
+    "193": {
       "op": "itxn_field XferAsset",
       "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ]
     },
-    "193": {
-      "op": "itxn_field AssetReceiver",
-      "stack_out": []
-    },
     "195": {
-      "op": "intc_0 // 0",
-      "defined_out": [
-        "0"
-      ],
+      "op": "itxn_field AssetReceiver",
       "stack_out": [
-        "0"
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
-    "196": {
-      "op": "itxn_field AssetAmount",
-      "stack_out": []
+    "197": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "0"
+      ]
     },
     "198": {
+      "op": "itxn_field AssetAmount",
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
+    },
+    "200": {
       "op": "intc_2 // axfer",
       "defined_out": [
-        "axfer"
+        "axfer",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
         "axfer"
       ]
     },
-    "199": {
-      "op": "itxn_field TypeEnum",
-      "stack_out": []
-    },
     "201": {
-      "op": "intc_0 // 0",
+      "op": "itxn_field TypeEnum",
       "stack_out": [
-        "0"
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
-    "202": {
+    "203": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "204": {
+    "205": {
       "op": "itxn_submit"
     },
-    "205": {
+    "206": {
       "retsub": true,
       "op": "retsub"
     },
-    "206": {
+    "207": {
       "subroutine": "smart_contracts.poma.contract.Poma.send_reward",
       "params": {
         "amount#0": "uint64",
@@ -776,82 +794,98 @@
       "stack_in": [],
       "op": "proto 3 0"
     },
-    "209": {
+    "210": {
       "op": "itxn_begin"
     },
-    "210": {
+    "211": {
+      "op": "global MinTxnFee",
+      "defined_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
+    },
+    "213": {
       "op": "frame_dig -1",
       "defined_out": [
-        "asset_id#0 (copy)"
+        "asset_id#0 (copy)",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
         "asset_id#0 (copy)"
       ]
     },
-    "212": {
+    "215": {
       "op": "itxn_field XferAsset",
-      "stack_out": []
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
     },
-    "214": {
+    "217": {
       "op": "frame_dig -2",
       "defined_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
         "receiver#0 (copy)"
       ],
       "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
         "receiver#0 (copy)"
       ]
     },
-    "216": {
+    "219": {
       "op": "itxn_field AssetReceiver",
-      "stack_out": []
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
     },
-    "218": {
+    "221": {
       "op": "frame_dig -3",
       "defined_out": [
-        "amount#0 (copy)"
+        "amount#0 (copy)",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
         "amount#0 (copy)"
-      ]
-    },
-    "220": {
-      "op": "itxn_field AssetAmount",
-      "stack_out": []
-    },
-    "222": {
-      "op": "intc_2 // axfer",
-      "defined_out": [
-        "axfer"
-      ],
-      "stack_out": [
-        "axfer"
       ]
     },
     "223": {
-      "op": "itxn_field TypeEnum",
-      "stack_out": []
+      "op": "itxn_field AssetAmount",
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
     },
     "225": {
-      "op": "intc_0 // 0",
+      "op": "intc_2 // axfer",
       "defined_out": [
-        "0"
+        "axfer",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
-        "0"
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "axfer"
       ]
     },
     "226": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
+    },
+    "228": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "228": {
+    "230": {
       "op": "itxn_submit"
     },
-    "229": {
+    "231": {
       "retsub": true,
       "op": "retsub"
     },
-    "230": {
+    "232": {
       "subroutine": "smart_contracts.poma.contract.Poma.send_algo_reward",
       "params": {
         "amount#0": "uint64",
@@ -861,65 +895,77 @@
       "stack_in": [],
       "op": "proto 2 0"
     },
-    "233": {
+    "235": {
       "op": "itxn_begin"
     },
-    "234": {
-      "op": "frame_dig -1",
+    "236": {
+      "op": "global MinTxnFee",
       "defined_out": [
-        "receiver#0 (copy)"
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
-        "receiver#0 (copy)"
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
-    "236": {
-      "op": "itxn_field Receiver",
-      "stack_out": []
-    },
     "238": {
-      "op": "frame_dig -2",
+      "op": "frame_dig -1",
       "defined_out": [
-        "amount#0 (copy)"
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "receiver#0 (copy)"
       ],
       "stack_out": [
-        "amount#0 (copy)"
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "receiver#0 (copy)"
       ]
     },
     "240": {
-      "op": "itxn_field Amount",
-      "stack_out": []
-    },
-    "242": {
-      "op": "intc_1 // pay",
-      "defined_out": [
-        "pay"
-      ],
+      "op": "itxn_field Receiver",
       "stack_out": [
-        "pay"
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
-    "243": {
-      "op": "itxn_field TypeEnum",
-      "stack_out": []
-    },
-    "245": {
-      "op": "intc_0 // 0",
+    "242": {
+      "op": "frame_dig -2",
       "defined_out": [
-        "0"
+        "amount#0 (copy)",
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ],
       "stack_out": [
-        "0"
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "amount#0 (copy)"
+      ]
+    },
+    "244": {
+      "op": "itxn_field Amount",
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
       ]
     },
     "246": {
+      "op": "intc_0 // pay",
+      "defined_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "pay"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0",
+        "pay"
+      ]
+    },
+    "247": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": [
+        "inner_txn_params%0%%param_Fee_idx_0#0"
+      ]
+    },
+    "249": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "248": {
+    "251": {
       "op": "itxn_submit"
     },
-    "249": {
+    "252": {
       "retsub": true,
       "op": "retsub"
     }
