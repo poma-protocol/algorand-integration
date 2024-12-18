@@ -14,19 +14,18 @@ const Sidebar = () => {
     const Menus = [
         { title: "Treasury Wallet", Icon: PiWalletBold },
         { title: "Send Rewards", Icon: FiSend },
-        { title: "Fund Treasury", Icon: MdSavings, gap: true },
+        // { title: "Fund Treasury", Icon: MdSavings, gap: true },
     ];
 
     const renderContent = () => {
         switch (activePage) {
             case "Treasury Wallet":
-                return <Treasury />;
+                return <FundTreasury />;
             case "Send Rewards":
                 return <SendRewards />;
-            case "Fund Treasury":
-                return <FundTreasury />;
+            
             default:
-                return <Treasury />;
+                return <FundTreasury />;
         }
     };
 
@@ -53,7 +52,7 @@ const Sidebar = () => {
                             key={index}
                             onClick={() => setActivePage(Menu.title)}
                             className={`flex rounded-md p-2 cursor-pointer hover:bg-gray-200 text-black text-sm items-center gap-x-4 ${
-                                Menu.gap ? "mt-9" : "mt-2"
+                                Menu?.gap ? "mt-9" : "mt-2"
                             } ${activePage === Menu.title ? "bg-gray-300" : ""}`}
                         >
                             <Menu.Icon size={20} />

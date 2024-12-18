@@ -93,10 +93,10 @@ export default function FundTreasury() {
         }
     }
 
-    return <div>
+    return <div className="max-w-md mx-auto p-6 border rounded-lg shadow-md bg-white">
         {activeAddress
             ? <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="w-3/4 m-auto">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-col gap-y-1">
                         <div className="flex flex-row gap-2 items-center">
                             <Checkbox 
@@ -146,15 +146,15 @@ export default function FundTreasury() {
                             }
                         />
                     </div>
-                    <div className="mt-4 flex flex-row justify-center">
-                        <Button type="submit" >Send</Button>
+                    <div className="mt-4 flex flex-row justify-center w-full">
+                        <Button type="submit" className="w-full">Send</Button>
                     </div>
                 </form>
             </Form>
             : <WalletPopover side="bottom" align="start" sideOffset={40}>
                 <div className="flex flex-col items-center gap-y-4">
                     <p>Connect Wallet to Send Asset To Treasury</p>
-                    <Button variant={"outline"} type="button">
+                    <Button variant={"outline"} type="button" className="w-full">
                         {activeAddress ? truncateAddress(activeAddress) : "connect wallet"}
                     </Button>
                 </div>
