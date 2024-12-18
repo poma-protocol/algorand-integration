@@ -102,11 +102,19 @@ export default function FundTreasury() {
                 atc.addTransaction({ txn, signer: transactionSigner });
                 await atc.execute(algodClient, 4);
             }
+
+            toast({
+                title: "Success",
+                description: "Funds successfully sent"
+            });
         } catch (err) {
             if (err instanceof Error) {
                 if (err.message.includes("overspend")) {
                     displayError("Insufficient Funds");
-                } else {
+                } else if (err.message === "Could Not Get Asset Details") {
+                    displayError("Asset Does Not Exist")
+                }
+                else {
                     console.log("Error =>", err);
                     displayError("Something Went Wrong");
                 }
