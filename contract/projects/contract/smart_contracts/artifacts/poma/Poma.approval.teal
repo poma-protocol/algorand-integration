@@ -12,10 +12,10 @@ __puya_arc4_router__:
     // class Poma(ARC4Contract):
     proto 0 1
     txn NumAppArgs
-    bz __puya_arc4_router___bare_routing@7
-    pushbytess 0x02bece11 0x3b6c3f57 0x4ae07b12 // method "hello(string)string", method "opt_in(uint64)void", method "send_reward(uint64,account,uint64)void"
+    bz __puya_arc4_router___bare_routing@8
+    pushbytess 0x02bece11 0x3b6c3f57 0x4ae07b12 0xfb200e09 // method "hello(string)string", method "opt_in(uint64)void", method "send_reward(uint64,account,uint64)void", method "send_algo_reward(uint64,account)void"
     txna ApplicationArgs 0
-    match __puya_arc4_router___hello_route@2 __puya_arc4_router___opt_in_route@3 __puya_arc4_router___send_reward_route@4
+    match __puya_arc4_router___hello_route@2 __puya_arc4_router___opt_in_route@3 __puya_arc4_router___send_reward_route@4 __puya_arc4_router___send_algo_reward_route@5
     intc_0 // 0
     retsub
 
@@ -88,18 +88,39 @@ __puya_arc4_router___send_reward_route@4:
     intc_1 // 1
     retsub
 
-__puya_arc4_router___bare_routing@7:
+__puya_arc4_router___send_algo_reward_route@5:
+    // smart_contracts/poma/contract.py:30
+    // @abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/poma/contract.py:5
+    // class Poma(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txna ApplicationArgs 2
+    btoi
+    txnas Accounts
+    // smart_contracts/poma/contract.py:30
+    // @abimethod
+    callsub send_algo_reward
+    intc_1 // 1
+    retsub
+
+__puya_arc4_router___bare_routing@8:
     // smart_contracts/poma/contract.py:5
     // class Poma(ARC4Contract):
     txn OnCompletion
-    bnz __puya_arc4_router___after_if_else@11
+    bnz __puya_arc4_router___after_if_else@12
     txn ApplicationID
     !
     assert // can only call when creating
     intc_1 // 1
     retsub
 
-__puya_arc4_router___after_if_else@11:
+__puya_arc4_router___after_if_else@12:
     // smart_contracts/poma/contract.py:5
     // class Poma(ARC4Contract):
     intc_0 // 0
@@ -202,6 +223,44 @@ send_reward:
     //     asset_amount=amount,
     //     asset_receiver=receiver,
     //     xfer_asset=asset_id,
+    //     fee=0
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.poma.contract.Poma.send_algo_reward(amount: uint64, receiver: bytes) -> void:
+send_algo_reward:
+    // smart_contracts/poma/contract.py:30-31
+    // @abimethod
+    // def send_algo_reward(self, amount: UInt64, receiver: Account) -> None:
+    proto 2 0
+    // smart_contracts/poma/contract.py:32-37
+    // # Send ALGOs
+    // itxn.Payment(
+    //     amount=amount,
+    //     receiver=receiver,
+    //     fee=0
+    // ).submit()
+    itxn_begin
+    frame_dig -1
+    itxn_field Receiver
+    frame_dig -2
+    itxn_field Amount
+    // smart_contracts/poma/contract.py:32-33
+    // # Send ALGOs
+    // itxn.Payment(
+    intc_1 // pay
+    itxn_field TypeEnum
+    // smart_contracts/poma/contract.py:36
+    // fee=0
+    intc_0 // 0
+    itxn_field Fee
+    // smart_contracts/poma/contract.py:32-37
+    // # Send ALGOs
+    // itxn.Payment(
+    //     amount=amount,
+    //     receiver=receiver,
     //     fee=0
     // ).submit()
     itxn_submit

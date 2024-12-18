@@ -26,3 +26,12 @@ class Poma(ARC4Contract):
             xfer_asset=asset_id,
             fee=0
         ).submit()
+        
+    @abimethod
+    def send_algo_reward(self, amount: UInt64, receiver: Account) -> None:
+        # Send ALGOs
+        itxn.Payment(
+            amount=amount,
+            receiver=receiver,
+            fee=0
+        ).submit()
