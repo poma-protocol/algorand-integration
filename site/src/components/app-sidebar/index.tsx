@@ -25,7 +25,7 @@ const Sidebar = () => {
             case "Fund Treasury":
                 return <FundTreasury />;
             default:
-                return <div>Select a menu item to view content</div>;
+                return <Treasury />;
         }
     };
 
@@ -41,7 +41,7 @@ const Sidebar = () => {
                         className={`text-black origin-left font-medium text-xl duration-200 ${!open && "scale-0"
                             }`}
                     >
-                        Poma
+                    
                     </h1>
                 </div>
                 <ul className="pt-6">
