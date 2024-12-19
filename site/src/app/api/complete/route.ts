@@ -7,7 +7,9 @@ const completionSchema = z.object({
     userAddress: z.string({message: "User Address Should Be A String"}),
     asset: z.union([z.literal("ALGO"), z.number()], {message: "Invalid Asset"}),
     amount: z.number({message: "Amount Should Be A Number"}).gt(0, "Amount Should Be Greater Than Zero")
-})
+});
+
+
 export async function POST(req: Request) {
     try {
         const parsed = completionSchema.safeParse(req.json());
@@ -42,6 +44,8 @@ export async function POST(req: Request) {
                     amount: data.amount,
                     paid: false
                 });
+
+            return Response.json({message: "Activity Prize Stored"}, {status: 201})
         } else {
             let errors = parsed.error.issues.map((i) => i.message);
             return Response.json({error: errors}, {status: 400})
