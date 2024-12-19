@@ -14,19 +14,18 @@ const Sidebar = () => {
     const Menus = [
         { title: "Treasury Wallet", Icon: PiWalletBold },
         { title: "Send Rewards", Icon: FiSend },
-        { title: "Fund Treasury", Icon: MdSavings, gap: true },
+        // { title: "Fund Treasury", Icon: MdSavings, gap: true },
     ];
 
     const renderContent = () => {
         switch (activePage) {
             case "Treasury Wallet":
-                return <Treasury />;
+                return <FundTreasury />;
             case "Send Rewards":
                 return <SendRewards />;
-            case "Fund Treasury":
-                return <FundTreasury />;
+            
             default:
-                return <Treasury />;
+                return <FundTreasury />;
         }
     };
 
@@ -44,7 +43,7 @@ const Sidebar = () => {
                             !open && "scale-0"
                         }`}
                     >
-                        Sidebar
+                      
                     </h1>
                 </div>
                 <ul className="pt-6">
@@ -52,9 +51,7 @@ const Sidebar = () => {
                         <li
                             key={index}
                             onClick={() => setActivePage(Menu.title)}
-                            className={`flex rounded-md p-2 cursor-pointer hover:bg-gray-200 text-black text-sm items-center gap-x-4 ${
-                                Menu.gap ? "mt-9" : "mt-2"
-                            } ${activePage === Menu.title ? "bg-gray-300" : ""}`}
+                            className={`flex rounded-md p-2 cursor-pointer hover:bg-gray-200 text-black text-sm items-center gap-x-4 mt-2  ${activePage === Menu.title ? "bg-gray-300" : ""}`}
                         >
                             <Menu.Icon size={20} />
                             <span
@@ -71,7 +68,7 @@ const Sidebar = () => {
 
             {/* Main Content */}
             <div className="flex-1 p-5">
-                <h2 className="text-2xl font-semibold mb-4">{activePage}</h2>
+                <h2 className="text-2xl font-semibold mb-4 text-center">{activePage}</h2>
                 {renderContent()}
             </div>
         </div>
