@@ -43,7 +43,7 @@ const Sidebar = () => {
                             !open && "scale-0"
                         }`}
                     >
-                        Sidebar
+                      
                     </h1>
                 </div>
                 <ul className="pt-6">

@@ -12,8 +12,11 @@ import { truncateAddress } from "@/utils/truncateAddress";
 import algosdk from "algosdk";
 import { hasContractOptedIn } from "@/utils/get-asset-details";
 import { contract } from "@/utils/algod-client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Checkbox } from "../ui/checkbox";
+import Image from "next/image";
+import { algodClient } from "@/utils/smartcontract/algoClient";
+
 // const formSchema = z.object({
 //     assetID: z.number({ message: "Asset ID must be a number" }),
 //     amount: z.number({ message: "Amount Must Be a number" }).gt(0, { message: "Amount Must Be Greater Than 0" })
@@ -27,6 +30,16 @@ type SendToTreasuryType = z.infer<typeof formSchema>
 export default function FundTreasury() {
     const { activeAddress, algodClient, transactionSigner, signTransactions } = useWallet();
     const [sendAlgo, setSendAlgo] = useState(false);
+    const [balance, setBalance] = useState(0);
+    const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+    useEffect(() => {
+        async function checkBalance() {
+            const balance = await algodClient.accountInformation(CONTRACT_ADDRESS).do();
+            console.log("Balance", balance);
+            setBalance(balance?.amount/1000_000)
+        }
+        checkBalance();
+    }, [CONTRACT_ADDRESS])
     const form = useForm<SendToTreasuryType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -47,7 +60,7 @@ export default function FundTreasury() {
                 const payTxn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
                     suggestedParams,
                     from: activeAddress!,
-                    to: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!,
+                    to: CONTRACT_ADDRESS,
                     amount: algosdk.algosToMicroalgos(amount)
                 });
 
@@ -61,12 +74,12 @@ export default function FundTreasury() {
                 const txn = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
                     suggestedParams,
                     from: activeAddress!,
-                    to: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!,
+                    to: CONTRACT_ADDRESS,
                     amount: amount,
                     assetIndex: assetID
                 });
 
-                let isOptedIn = await hasContractOptedIn(algodClient, process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!, assetID);
+                let isOptedIn = await hasContractOptedIn(algodClient, CONTRACT_ADDRESS, assetID);
                 if (!isOptedIn) {
                     // Opt in
                     atc.addMethodCall({
@@ -94,13 +107,20 @@ export default function FundTreasury() {
     }
 
     return <div className="max-w-md mx-auto p-6 border rounded-lg shadow-md bg-white">
+        <div className="flex mx-auto justify-center items-center gap-x-2 mb-4">
+           <p className="text-3xl font-semibold">{balance}</p>
+            <div>
+
+                <Image src="/assets/images/algorand-logo.png" width={20} height={20} alt="Algorand logo" />
+            </div>
+        </div>
         {activeAddress
             ? <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-col gap-y-1">
                         <div className="flex flex-row gap-2 items-center">
-                            <Checkbox 
-                                id="algo" 
+                            <Checkbox
+                                id="algo"
                                 checked={sendAlgo}
                                 onCheckedChange={() => setSendAlgo(!sendAlgo)}
                             />

@@ -35,14 +35,16 @@ export default function SendRewards() {
         defaultValues: {
             tokenType: "algo",
             userAddress: "",
-            amount: 0,
-            assetId: 0,
+            amount: undefined,
+            assetId: undefined,
         },
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("Active Address", activeAddress);
-
+        if (!activeAddress) {
+            toast.error("Please connect your wallet");
+            return;
+        }
         try {
             if (values.tokenType === "custom") {
                 console.log("Sending custom token");
@@ -85,7 +87,7 @@ export default function SendRewards() {
                     appID: Number.parseInt(process.env.NEXT_PUBLIC_APP_ID!),
                     method: contract.getMethodByName("send_algo_reward"),
                     methodArgs: [
-                        values.amount,
+                        values.amount * 1000000,
                         values.userAddress
                     ],
                     sender: activeAddress!,
