@@ -8,7 +8,7 @@ interface AssetInfo {
 
 export async function hasContractOptedIn(algodClient: algosdk.Algodv2, address: string, assetID: number): Promise<boolean> {
     try {
-        const contractInfo = await algodClient.accountAssetInformation(address, assetID).do();
+        await algodClient.accountAssetInformation(address, assetID).do();
         return true;
     } catch(err) {
         if (err instanceof Error) {

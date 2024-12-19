@@ -28,7 +28,7 @@ export class SmartContract {
                 suggestedParams,
                 appForeignAssets: [assetId]
             })
-            const txn = await atc.execute(this.algoClient, 4)
+            await atc.execute(this.algoClient, 4)
 
         }
         catch (error) {
@@ -52,7 +52,7 @@ export class SmartContract {
                 suggestedParams,
                 appForeignAssets: [args.assetId]
             })
-            const txn = await atc.execute(this.algoClient, 4)
+            await atc.execute(this.algoClient, 4)
         }
         catch (error) {
             if (isLowFundsErr(error)) {
@@ -76,7 +76,7 @@ export class SmartContract {
                 signer: pomaAccountSigner,
                 suggestedParams
             })
-            const txn = await atc.execute(this.algoClient, 4)
+            await atc.execute(this.algoClient, 4)
 
         }
         catch (error) {

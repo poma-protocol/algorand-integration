@@ -1,7 +1,7 @@
 "use client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import {
@@ -28,7 +28,7 @@ const formSchema = z.object({
 
 export default function SendRewards() {
     const [tokenType, setTokenType] = useState("algo"); // Default to "algo"
-    const { activeAddress, algodClient, transactionSigner, signTransactions } = useWallet();
+    const { activeAddress, algodClient, transactionSigner } = useWallet();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

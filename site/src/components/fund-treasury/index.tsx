@@ -7,21 +7,14 @@ import { useForm } from "react-hook-form";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { WalletPopover } from "@/components/walletPopover";
-import { truncateAddress } from "@/utils/truncateAddress";
 import algosdk from "algosdk";
 import { getAssetDetails, hasContractOptedIn } from "@/utils/get-asset-details";
 import { contract } from "@/utils/algod-client";
 import { useState, useEffect } from "react";
 import { Checkbox } from "../ui/checkbox";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import Image from "next/image";
-import { algodClient } from "@/utils/smartcontract/algoClient";
 
-// const formSchema = z.object({
-//     assetID: z.number({ message: "Asset ID must be a number" }),
-//     amount: z.number({ message: "Amount Must Be a number" }).gt(0, { message: "Amount Must Be Greater Than 0" })
-// })
 const formSchema = z.object({
     assetID: z.string(),
     amount: z.string()
@@ -29,9 +22,8 @@ const formSchema = z.object({
 type SendToTreasuryType = z.infer<typeof formSchema>
 
 export default function FundTreasury() {
-    const { activeAddress, algodClient, transactionSigner, signTransactions } = useWallet();
+    const { activeAddress, algodClient, transactionSigner } = useWallet();
     const [sendAlgo, setSendAlgo] = useState(false);
-    const {toast} = useToast();
     const [balance, setBalance] = useState(0);
     const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
     useEffect(() => {
@@ -41,7 +33,7 @@ export default function FundTreasury() {
             setBalance(balance?.amount/1000_000)
         }
         checkBalance();
-    }, [CONTRACT_ADDRESS])
+    }, [CONTRACT_ADDRESS, algodClient])
     const form = useForm<SendToTreasuryType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -51,18 +43,20 @@ export default function FundTreasury() {
     });
 
     function displayError(message: string) {
-        toast({
-            variant: "destructive",
-            title: "Uh oh! Something went wrong.",
-            description: message
-        });
+        toast.error(message);
     }
 
     async function onSubmit(values: SendToTreasuryType) {
+
         const amount = Number.parseFloat(values.amount);
         const assetID = Number.parseInt(values.assetID);
 
         try {
+            if(!activeAddress) {
+                toast.error("Connect Wallet");
+                return;
+            }
+
             if (sendAlgo) {
                 const suggestedParams = await algodClient.getTransactionParams().do();
                 const atc = new algosdk.AtomicTransactionComposer();
@@ -93,7 +87,7 @@ export default function FundTreasury() {
                     assetIndex: assetID
                 });
 
-                let isOptedIn = await hasContractOptedIn(algodClient, CONTRACT_ADDRESS, assetID);
+                const isOptedIn = await hasContractOptedIn(algodClient, CONTRACT_ADDRESS, assetID);
                 if (!isOptedIn) {
                     
                     // Opt in
@@ -115,16 +109,15 @@ export default function FundTreasury() {
                 await atc.execute(algodClient, 4);
             }
 
-            toast({
-                title: "Success",
-                description: "Funds successfully sent"
-            });
+            toast.success("Funds successfully sent")
         } catch (err) {
             if (err instanceof Error) {
                 if (err.message.includes("overspend")) {
                     displayError("Insufficient Funds");
                 } else if (err.message === "Could Not Get Asset Details") {
                     displayError("Asset Does Not Exist")
+                } else if (err.message === "Connect Wallet") {
+                    displayError("Connect Wallet")
                 }
                 else {
                     console.log("Error =>", err);
@@ -145,8 +138,7 @@ export default function FundTreasury() {
                 <Image src="/assets/images/algorand-logo.png" width={20} height={20} alt="Algorand logo" />
             </div>
         </div>
-        {activeAddress
-            ? <Form {...form}>
+        <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="flex flex-col gap-y-1">
                         <div className="flex flex-row gap-2 items-center">
@@ -202,13 +194,5 @@ export default function FundTreasury() {
                     </div>
                 </form>
             </Form>
-            : <WalletPopover side="bottom" align="start" sideOffset={40}>
-                <div className="flex flex-col items-center gap-y-4">
-                    <p>Connect Wallet to Send Asset To Treasury</p>
-                    <Button variant={"outline"} type="button" className="w-full">
-                        {activeAddress ? truncateAddress(activeAddress) : "connect wallet"}
-                    </Button>
-                </div>
-            </WalletPopover>}
     </div>
 }

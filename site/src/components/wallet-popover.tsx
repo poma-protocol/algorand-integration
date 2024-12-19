@@ -4,7 +4,6 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { ElementRef, useRef } from "react";
 import PageAssist from "@/app/page-assist";
 interface WalletPopoverProps {
     align?: "start" | "center" | "end";

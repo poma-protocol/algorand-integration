@@ -1,11 +1,9 @@
 "use client";
-import { useWallet } from "@txnlab/use-wallet-react";
 import WalletConnectButton from "./wallet-connect-button";
 import Link from "next/link";
 import Image from "next/image";
 
 export const AppBar = () => {
-  const {activeAddress} = useWallet();
   return (
     <div className="flex items-center py-5  justify-between w-screen shadow-md">
         <div className= "flex items-center  justify-around w-1/2 text-lg ">

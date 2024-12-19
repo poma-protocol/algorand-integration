@@ -1,14 +1,11 @@
 "use client";
 import { FiSend } from "react-icons/fi";
 import { PiWalletBold } from "react-icons/pi";
-import { MdSavings } from "react-icons/md";
 import SendRewards from "../send-rewards";
-import Treasury from "../treasury";
 import { useState } from "react";
 import FundTreasury from "../fund-treasury";
 
 const Sidebar = () => {
-    const [open, setOpen] = useState(true);
     const [activePage, setActivePage] = useState("Treasury Wallet");
 
     const Menus = [
@@ -34,13 +31,13 @@ const Sidebar = () => {
             {/* Sidebar */}
             <div
                 className={`${
-                    open ? "w-72" : "w-20"
+                    true ? "w-72" : "w-20"
                 } border-r border-black p-5 pt-8 relative duration-300`}
             >
                 <div className="flex gap-x-4 items-center">
                     <h1
                         className={`text-black origin-left font-medium text-xl duration-200 ${
-                            !open && "scale-0"
+                            !true && "scale-0"
                         }`}
                     >
                       
@@ -56,7 +53,7 @@ const Sidebar = () => {
                             <Menu.Icon size={20} />
                             <span
                                 className={`${
-                                    !open && "hidden"
+                                    !true && "hidden"
                                 } origin-left duration-200`}
                             >
                                 {Menu.title}
