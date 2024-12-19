@@ -12,7 +12,7 @@ const completionSchema = z.object({
 
 export async function POST(req: Request) {
     try {
-        const parsed = completionSchema.safeParse(req.json());
+        const parsed = completionSchema.safeParse(await req.json());
         if (parsed.success) {
             let data = parsed.data
             // Verify that address exists
@@ -21,18 +21,19 @@ export async function POST(req: Request) {
                 return Response.json({error: ["User Account Does Not Exist"]}, {status: 400});
             }
 
-            // Verify that address has opted in
+            
             if (typeof(data.asset) === "number") {
-                let accountOptIn = await hasAccountOptedIn(algodClient, data.userAddress, data.asset);
-                if (!accountOptIn) {
-                    return Response.json({error: ["User Has Not Opted In To Asset"]}, {status: 400});
-                }
-
                 // Verify that asset exists
                 try {
                     await getAssetDetails(algodClient, data.asset);
                 } catch(err) {
                     return Response.json({error: ["Asset Does Not Exist"]}, {status: 400});
+                }
+
+                // Verify that address has opted in
+                let accountOptIn = await hasAccountOptedIn(algodClient, data.userAddress, data.asset);
+                if (!accountOptIn) {
+                    return Response.json({error: ["User Has Not Opted In To Asset"]}, {status: 400});
                 }
             }
 
