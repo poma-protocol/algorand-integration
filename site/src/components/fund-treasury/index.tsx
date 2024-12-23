@@ -8,7 +8,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import algosdk from "algosdk";
-import { getAssetDetails, hasContractOptedIn } from "@/utils/get-asset-details";
+import { getAssetDetails, hasAccountOptedIn } from "@/utils/get-asset-details";
 import { contract } from "@/utils/algod-client";
 import { useState, useEffect } from "react";
 import { Checkbox } from "../ui/checkbox";
@@ -87,7 +87,7 @@ export default function FundTreasury() {
                     assetIndex: assetID
                 });
 
-                const isOptedIn = await hasContractOptedIn(algodClient, CONTRACT_ADDRESS, assetID);
+                const isOptedIn = await hasAccountOptedIn(algodClient, CONTRACT_ADDRESS, assetID);
                 if (!isOptedIn) {
                     
                     // Opt in
