@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
         const paginationParams = req.nextUrl.searchParams;
         const page = Number.parseInt(paginationParams.get('page')!);
         const size = Number.parseInt(paginationParams.get('size')!);
-        let prizes = await db.select({
+        const prizes = await db.select({
             id: userPrizes.id,
             address: userPrizes.userAddress,
             amount: userPrizes.amount,
