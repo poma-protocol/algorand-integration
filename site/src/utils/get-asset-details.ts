@@ -6,7 +6,8 @@ interface AssetInfo {
     decimals: number
 }
 
-export async function hasContractOptedIn(algodClient: algosdk.Algodv2, address: string, assetID: number): Promise<boolean> {
+
+export async function hasAccountOptedIn(algodClient: algosdk.Algodv2, address: string, assetID: number): Promise<boolean> {
     try {
         await algodClient.accountAssetInformation(address, assetID).do();
         return true;
@@ -17,6 +18,16 @@ export async function hasContractOptedIn(algodClient: algosdk.Algodv2, address: 
             }
         }
         throw new Error("Could Not Check If Contract Has Opted In");
+    }
+}
+
+export async function doesAccountExist(address: string, algodClient: algosdk.Algodv2): Promise<boolean> {
+    try {
+        await algodClient.accountInformation(address).do();
+        return true
+    } catch(err) {
+        console.log("Error =>", err);
+        return false;
     }
 }
 
