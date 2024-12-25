@@ -19,11 +19,12 @@ import { useState } from "react";
 import { contract } from "@/utils/algod-client";
 import { useWallet } from "@txnlab/use-wallet-react";
 import algosdk from "algosdk";
+import { getAssetDetails } from "@/utils/get-asset-details";
 const formSchema = z.object({
     tokenType: z.string(),
     assetId: z.number().optional(),
     userAddress: z.string().min(1, "User Address is required"),
-    amount: z.number().min(1, "Amount must be greater than 0"),
+    amount: z.number().gt(0, "Amount must be greater than 0"),
 });
 
 export default function SendRewards() {
