@@ -20,6 +20,7 @@ import { contract } from "@/utils/algod-client";
 import { useWallet } from "@txnlab/use-wallet-react";
 import algosdk from "algosdk";
 import axios from "axios";
+import { getAssetDetails } from "@/utils/get-asset-details";
 interface Transaction {
     id: number;
     address: string;
@@ -92,13 +93,15 @@ export default function Transactions() {
                 console.log("Sending custom token");
 
                 // Send custom token
+                const assetInfo = await getAssetDetails(algodClient, values.tokenType);
+                const assetAmount = values.amount * (10 ** assetInfo.decimals);
                 const suggestedParams = await algodClient.getTransactionParams().do();
                 const atc = new algosdk.AtomicTransactionComposer();
                 atc.addMethodCall({
                     appID: Number.parseInt(process.env.NEXT_PUBLIC_APP_ID!),
                     method: contract.getMethodByName("send_reward"),
                     methodArgs: [
-                        values.amount,
+                        assetAmount,
                         values.address,
                         values.tokenType
                     ],
