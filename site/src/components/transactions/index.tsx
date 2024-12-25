@@ -194,7 +194,7 @@ export default function Transactions() {
                             </TableCell>
                             <TableCell className="text-left">{tx.assetID}</TableCell>
                             <TableCell className="text-right flex items-center justify-center">
-                                {tx.amount} {tx.assetID === "ALGO" ? <SiAlgorand className="ml-2" /> : tx.assetID}
+                                {tx.amount} {tx.assetID === "ALGO" && <SiAlgorand className="ml-2" />}
                             </TableCell>
                             <TableCell className="text-center">
                                 <Checkbox id={`checkbox-${tx.id}`} onClick={() => handleMarkAsPaid(tx.id)} />
