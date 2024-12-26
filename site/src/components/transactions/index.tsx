@@ -36,33 +36,35 @@ export default function Transactions() {
     const [isLoading, setIsLoading] = useState(false);
 
 
-    // Fetch transactions with pagination
-    const fetchTransactions = async (page: number) => {
-        setIsLoading(true);
-        try {
-            const response = await axios.get(`/api/prizes?page=${page}&size=${pageSize}`)
-            const data = await response.data;
-            if (response.status === 200 || response.status === 201) {
-                setTransactions(data)
-            }
-            else {
-                console.log("Error occured", data);
-            }
-        } catch (error) {
-            toast.error("Failed to fetch transactions");
-            console.log("Error occured", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+
 
     useEffect(() => {
+        // Fetch transactions with pagination
+        const fetchTransactions = async (page: number) => {
+            setIsLoading(true);
+            try {
+                const response = await axios.get(`/api/prizes?page=${page}&size=${pageSize}`)
+                const data = await response.data;
+                if (response.status === 200 || response.status === 201) {
+                    setTransactions(data)
+                }
+                else {
+                    console.log("Error occured", data);
+                }
+            } catch (error) {
+                toast.error("Failed to fetch transactions");
+                console.log("Error occured", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
         fetchTransactions(currentPage);
     }, [currentPage]);
     // Mark a transaction as paid
     const handleMarkAsPaid = async (id: number) => {
         try {
-           
+
             const response = await axios.post(`/api/pay/${id}`);
             if (response.status === 200 || response.status === 201) {
                 toast.success("Marked as paid!");
@@ -77,6 +79,7 @@ export default function Transactions() {
                 )
             );
         } catch (error) {
+            console.log(error);
             toast.error("Failed to mark as paid");
         }
     };
