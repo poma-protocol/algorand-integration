@@ -19,11 +19,12 @@ import { useState } from "react";
 import { contract } from "@/utils/algod-client";
 import { useWallet } from "@txnlab/use-wallet-react";
 import algosdk from "algosdk";
+import { getAssetDetails } from "@/utils/get-asset-details";
 const formSchema = z.object({
     tokenType: z.string(),
     assetId: z.number().optional(),
     userAddress: z.string().min(1, "User Address is required"),
-    amount: z.number().min(1, "Amount must be greater than 0"),
+    amount: z.number().gt(0, "Amount must be greater than 0"),
 });
 
 export default function SendRewards() {
@@ -50,13 +51,15 @@ export default function SendRewards() {
                 console.log("Sending custom token");
                 if (values.assetId) {
                     // Send custom token
+                    const assetInfo = await getAssetDetails(algodClient, values.assetId);
+                    const assetAmount = values.amount * (10 ** assetInfo.decimals);
                     const suggestedParams = await algodClient.getTransactionParams().do();
                     const atc = new algosdk.AtomicTransactionComposer();
                     atc.addMethodCall({
                         appID: Number.parseInt(process.env.NEXT_PUBLIC_APP_ID!),
                         method: contract.getMethodByName("send_reward"),
                         methodArgs: [
-                            values.amount,
+                            assetAmount,
                             values.userAddress,
                             values.assetId
                         ],
