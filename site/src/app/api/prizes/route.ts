@@ -18,7 +18,17 @@ export async function GET(req: NextRequest) {
         .where(eq(userPrizes.paid, false))
         .offset((page - 1) * size)
         .limit(size)
-        return Response.json(prizes, {status: 200});
+
+        const parsedPrizes = prizes.map((p) => {
+            return {
+                id: p.id,
+                address: p.address,
+                amount: p.amount,
+                assetID: p.assetID === "ALGO" ? p.assetID : Number.parseInt(p.assetID)
+            }
+        })
+
+        return Response.json(parsedPrizes, {status: 200});
     } catch(err) {
         console.log("Error Getting Prizes =>", err);
         return Response.json({error: ["Could Not Get Unpaid Prizes"]}, {status: 500});

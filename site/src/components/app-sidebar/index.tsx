@@ -2,8 +2,11 @@
 import { FiSend } from "react-icons/fi";
 import { PiWalletBold } from "react-icons/pi";
 import SendRewards from "../send-rewards";
+import Transactions from "../transactions";
 import { useState } from "react";
 import FundTreasury from "../fund-treasury";
+import { GrTransaction } from "react-icons/gr";
+
 
 const Sidebar = () => {
     const [activePage, setActivePage] = useState("Treasury Wallet");
@@ -11,7 +14,7 @@ const Sidebar = () => {
     const Menus = [
         { title: "Treasury Wallet", Icon: PiWalletBold },
         { title: "Send Rewards", Icon: FiSend },
-        // { title: "Fund Treasury", Icon: MdSavings, gap: true },
+        { title: "Transactions", Icon: GrTransaction, gap: true },
     ];
 
     const renderContent = () => {
@@ -20,7 +23,8 @@ const Sidebar = () => {
                 return <FundTreasury />;
             case "Send Rewards":
                 return <SendRewards />;
-            
+            case  "Transactions":
+                return <Transactions/>
             default:
                 return <FundTreasury />;
         }
