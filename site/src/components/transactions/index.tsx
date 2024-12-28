@@ -36,6 +36,7 @@ export default function Transactions() {
     const [pageSize] = useState(5); // Adjust page size as needed
     const [isLoading, setIsLoading] = useState(false);
     const forceUpdate = useReducer(() => ({}), {})[1] as () => void
+    const [success, setSuccess] = useState(false); // State to track success
 
     useEffect(() => {
         // Fetch transactions with pagination
@@ -59,7 +60,7 @@ export default function Transactions() {
         };
 
         fetchTransactions(currentPage);
-    }, [currentPage]);
+    }, [currentPage, success]);
     // Mark a transaction as paid
     const handleMarkAsPaid = async (id: number) => {
         try {
@@ -67,7 +68,7 @@ export default function Transactions() {
             const response = await axios.post(`/api/pay/${id}`);
             if (response.status === 200 || response.status === 201) {
                 toast.success("Marked as paid!");
-                forceUpdate();
+                setSuccess(prev => !prev);
             }
             else {
                 toast.error("Failed to mark as paid");
@@ -122,7 +123,7 @@ export default function Transactions() {
                 })
                 toast.success("Rewards sent successfully");
                 handleMarkAsPaid(values.id);
-                forceUpdate();
+                setSuccess(prev => !prev);
                 console.log("Done");
                 return
             }
@@ -152,7 +153,7 @@ export default function Transactions() {
                 console.log("Done");
                 toast.success("Rewards sent successfully");
                 handleMarkAsPaid(values.id);
-                forceUpdate();
+                setSuccess(prev => !prev);
                 return
             }
             else {
