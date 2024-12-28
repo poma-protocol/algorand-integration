@@ -13,24 +13,26 @@ export async function GET(req: NextRequest) {
             id: userPrizes.id,
             address: userPrizes.userAddress,
             amount: userPrizes.amount,
-            assetID: userPrizes.assetID
+            assetID: userPrizes.assetID,
+            userid: userPrizes.userid
         }).from(userPrizes)
-        .where(eq(userPrizes.paid, false))
-        .offset((page - 1) * size)
-        .limit(size)
+            .where(eq(userPrizes.paid, false))
+            .offset((page - 1) * size)
+            .limit(size)
 
         const parsedPrizes = prizes.map((p) => {
             return {
                 id: p.id,
                 address: p.address,
                 amount: p.amount,
-                assetID: p.assetID === "ALGO" ? p.assetID : Number.parseInt(p.assetID)
+                assetID: p.assetID === "ALGO" ? p.assetID : Number.parseInt(p.assetID),
+                userid: p.userid
             }
         })
 
-        return Response.json(parsedPrizes, {status: 200});
-    } catch(err) {
+        return Response.json(parsedPrizes, { status: 200 });
+    } catch (err) {
         console.log("Error Getting Prizes =>", err);
-        return Response.json({error: ["Could Not Get Unpaid Prizes"]}, {status: 500});
+        return Response.json({ error: ["Could Not Get Unpaid Prizes"] }, { status: 500 });
     }
 }
