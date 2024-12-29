@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { truncateAddress } from "@/utils/truncateAddress";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ interface Transaction {
     address: string;
     amount: number;
     assetID: number | "ALGO";
+    userid: string;
 }
 
 export default function Transactions() {
@@ -34,9 +35,8 @@ export default function Transactions() {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(5); // Adjust page size as needed
     const [isLoading, setIsLoading] = useState(false);
-
-
-
+    const forceUpdate = useReducer(() => ({}), {})[1] as () => void
+    const [success, setSuccess] = useState(false); // State to track success
 
     useEffect(() => {
         // Fetch transactions with pagination
@@ -60,7 +60,7 @@ export default function Transactions() {
         };
 
         fetchTransactions(currentPage);
-    }, [currentPage]);
+    }, [currentPage, success]);
     // Mark a transaction as paid
     const handleMarkAsPaid = async (id: number) => {
         try {
@@ -68,6 +68,7 @@ export default function Transactions() {
             const response = await axios.post(`/api/pay/${id}`);
             if (response.status === 200 || response.status === 201) {
                 toast.success("Marked as paid!");
+                setSuccess(prev => !prev);
             }
             else {
                 toast.error("Failed to mark as paid");
@@ -122,10 +123,9 @@ export default function Transactions() {
                 })
                 toast.success("Rewards sent successfully");
                 handleMarkAsPaid(values.id);
+                setSuccess(prev => !prev);
                 console.log("Done");
                 return
-
-
             }
             else if (values.tokenType === "ALGO") {
                 console.log("Sending algo");
@@ -153,6 +153,7 @@ export default function Transactions() {
                 console.log("Done");
                 toast.success("Rewards sent successfully");
                 handleMarkAsPaid(values.id);
+                setSuccess(prev => !prev);
                 return
             }
             else {
@@ -184,6 +185,7 @@ export default function Transactions() {
                 </TableCaption>
                 <TableHeader>
                     <TableRow>
+                        <TableHead className="text-left">ID</TableHead>
                         <TableHead className="text-left">Wallet Address</TableHead>
                         <TableHead className="text-left">Asset Type</TableHead>
                         <TableHead className="text-right">Amount</TableHead>
@@ -195,11 +197,15 @@ export default function Transactions() {
                 <TableBody>
                     {transactions.map((tx) => (
                         <TableRow key={tx.id} className="hover:bg-gray-50">
+                            <TableCell className="text-left">
+                                {tx.userid}
+
+                            </TableCell>
                             <TableCell className="font-medium text-left">
                                 {truncateAddress(tx.address)}
                             </TableCell>
                             <TableCell className="text-left">{tx.assetID}</TableCell>
-                            <TableCell className="text-right flex items-center justify-center">
+                            <TableCell className="text-right flex items-center justify-end">
                                 {tx.amount} {tx.assetID === "ALGO" && <SiAlgorand className="ml-2" />}
                             </TableCell>
                             <TableCell className="text-center">

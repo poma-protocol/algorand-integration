@@ -6,7 +6,8 @@ import { userPrizes } from "../schema";
 const completionSchema = z.object({
     userAddress: z.string({message: "User Address Should Be A String"}),
     asset: z.union([z.literal("ALGO"), z.number()], {message: "Invalid Asset"}),
-    amount: z.number({message: "Amount Should Be A Number"}).gt(0, "Amount Should Be Greater Than Zero")
+    amount: z.number({message: "Amount Should Be A Number"}).gt(0, "Amount Should Be Greater Than Zero"),
+    userID: z.string({message: "User ID should be a string"})
 });
 
 
@@ -44,6 +45,7 @@ export async function POST(req: Request) {
                     userAddress: data.userAddress,
                     assetID: data.asset.toString(),
                     amount: data.amount,
+                    userid: data.userID,
                     paid: false
                 });
 
