@@ -35,7 +35,6 @@ export default function Transactions() {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(5); // Adjust page size as needed
     const [isLoading, setIsLoading] = useState(false);
-    const forceUpdate = useReducer(() => ({}), {})[1] as () => void
     const [success, setSuccess] = useState(false); // State to track success
 
     useEffect(() => {
