@@ -11,7 +11,7 @@ const walletManager = new WalletManager({
             options: { projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID! }
         }
     ],
-    network: NetworkId.TESTNET
+    network: NetworkId.MAINNET
 })
 
 export function Providers({ children }: { children: React.ReactNode }) {
