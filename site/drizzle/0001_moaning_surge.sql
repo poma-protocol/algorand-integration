@@ -1,0 +1,1 @@
+ALTER TABLE "userPrizes" ADD COLUMN "userid" text DEFAULT '' NOT NULL;
