@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
                 amount: p.amount,
                 assetID: p.assetID === "ALGO" ? p.assetID : Number.parseInt(p.assetID),
                 userid: p.userid,
-                date: userPrizes.date
+                date: p.date
             }
         })
 
