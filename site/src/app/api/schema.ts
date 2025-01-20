@@ -1,4 +1,4 @@
-import { pgTable, real, serial, text, boolean } from "drizzle-orm/pg-core";
+import { pgTable, real, serial, text, boolean, date } from "drizzle-orm/pg-core";
 
 export const userPrizes = pgTable("userPrizes", {
     id: serial(),
@@ -6,5 +6,6 @@ export const userPrizes = pgTable("userPrizes", {
     userid: text().notNull().default(""),
     assetID: text().notNull(),
     amount: real().notNull(),
-    paid: boolean().notNull().default(false)
+    paid: boolean().notNull().default(false),
+    date: date().notNull().defaultNow()
 })

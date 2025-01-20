@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 import db from "../database";
 import { userPrizes } from "../schema";
 import { type NextRequest } from "next/server";
@@ -14,9 +14,11 @@ export async function GET(req: NextRequest) {
             address: userPrizes.userAddress,
             amount: userPrizes.amount,
             assetID: userPrizes.assetID,
-            userid: userPrizes.userid
+            userid: userPrizes.userid,
+            date: userPrizes.date,
         }).from(userPrizes)
             .where(eq(userPrizes.paid, false))
+            .orderBy(asc(userPrizes.date))
             .offset((page - 1) * size)
             .limit(size)
 
@@ -26,7 +28,8 @@ export async function GET(req: NextRequest) {
                 address: p.address,
                 amount: p.amount,
                 assetID: p.assetID === "ALGO" ? p.assetID : Number.parseInt(p.assetID),
-                userid: p.userid
+                userid: p.userid,
+                date: userPrizes.date
             }
         })
 
