@@ -18,9 +18,9 @@ export async function GET(req: NextRequest) {
             date: userPrizes.date,
         }).from(userPrizes)
             .where(eq(userPrizes.paid, false))
-            .orderBy(desc(userPrizes.date))
             .offset((page - 1) * size)
             .limit(size)
+            .orderBy(desc(userPrizes.date))
 
         const parsedPrizes = prizes.map((p) => {
             return {

@@ -1,0 +1,1 @@
+ALTER TABLE "userPrizes" ALTER COLUMN "date" SET DATA TYPE timestamp;
