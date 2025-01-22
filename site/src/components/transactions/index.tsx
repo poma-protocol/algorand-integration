@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useReducer } from "react";
+import { useEffect, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { truncateAddress } from "@/utils/truncateAddress";
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,6 @@ export default function Transactions() {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(5); // Adjust page size as needed
     const [isLoading, setIsLoading] = useState(false);
-    const forceUpdate = useReducer(() => ({}), {})[1] as () => void
     const [success, setSuccess] = useState(false); // State to track success
 
     useEffect(() => {

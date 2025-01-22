@@ -1,0 +1,1 @@
+ALTER TABLE "userPrizes" ADD COLUMN "date" date DEFAULT now() NOT NULL;
