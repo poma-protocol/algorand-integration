@@ -175,8 +175,7 @@ export default function Transactions() {
     // Pagination handlers
     const handleNextPage = () => setCurrentPage((prev) => prev + 1);
     const handlePreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-    function truncateDate(isoDate: string)
-    {
+    function truncateDate(isoDate: string) {
         const date = new Date(isoDate);
         const day = date.getDate();
         const month = date.getMonth() + 1; // Months are zero-based
@@ -194,6 +193,7 @@ export default function Transactions() {
                     <TableRow>
                         <TableHead className="text-left">ID</TableHead>
                         <TableHead className="text-left">Date</TableHead>
+                        <TableHead className="text-left">Time</TableHead>
                         <TableHead className="text-left">Wallet Address</TableHead>
                         <TableHead className="text-left">Asset Type</TableHead>
                         <TableHead className="text-right">Amount</TableHead>
@@ -211,6 +211,9 @@ export default function Transactions() {
                             </TableCell>
                             <TableCell className="text-left">
                                 {truncateDate(tx.date)}
+                            </TableCell>
+                            <TableCell className="text-left">
+                                {new Date(tx.date).toLocaleTimeString()}
                             </TableCell>
                             <TableCell className="font-medium text-left">
                                 {truncateAddress(tx.address)}
