@@ -36,6 +36,13 @@
       "when": 1737728675381,
       "tag": "0004_broad_cloak",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1737729133105,
+      "tag": "0005_lyrical_mandarin",
+      "breakpoints": true
     }
   ]
 }

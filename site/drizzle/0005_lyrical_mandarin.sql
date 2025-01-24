@@ -1,0 +1,1 @@
+ALTER TABLE "userPrizes" ADD PRIMARY KEY ("id");
