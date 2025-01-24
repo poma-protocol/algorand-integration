@@ -1,39 +1,18 @@
 import { NextRequest } from "next/server";
 import db from "../database";
 import { userPrizes } from "../schema";
-import {eq, desc} from "drizzle-orm";
+import {eq} from "drizzle-orm";
 
-export async function GET(req: NextRequest) {
+export async function DELETE(req: NextRequest) {
     try {
         const paginationParams = req.nextUrl.searchParams;
-        const page = Number.parseInt(paginationParams.get('page')!);
-        const size = Number.parseInt(paginationParams.get('size')!);
+        const id = Number.parseInt(paginationParams.get('id')!);
 
-        const prizes = await db.select({
-            id: userPrizes.id,
-            address: userPrizes.userAddress,
-            amount: userPrizes.amount,
-            assetID: userPrizes.assetID,
-            userid: userPrizes.userid,
-            date: userPrizes.date,
-        }).from(userPrizes)
-            .where(eq(userPrizes.deleted, true))
-            .offset((page - 1) * size)
-            .limit(size)
-            .orderBy(desc(userPrizes.date))
+        await db.update(userPrizes).set({
+            deleted: true
+        }).where(eq(userPrizes.id, id))
 
-        const parsedPrizes = prizes.map((p) => {
-            return {
-                id: p.id,
-                address: p.address,
-                amount: p.amount,
-                assetID: p.assetID === "ALGO" ? p.assetID : Number.parseInt(p.assetID),
-                userid: p.userid,
-                date: p.date
-            }
-        })
-
-        return Response.json(parsedPrizes, { status: 200 });
+        return Response.json({message: "Deleted Succesfully"}, { status: 200 });
     } catch (err) {
         console.log("Error Getting History =>", err);
         return Response.json({ error: ["Could Not Get History of Prizes"] }, { status: 500 });
