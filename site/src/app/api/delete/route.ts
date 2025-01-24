@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import db from "../database";
 import { userPrizes } from "../schema";
-import {eq, desc, or} from "drizzle-orm";
+import {eq, desc} from "drizzle-orm";
 
 export async function GET(req: NextRequest) {
     try {
@@ -16,15 +16,8 @@ export async function GET(req: NextRequest) {
             assetID: userPrizes.assetID,
             userid: userPrizes.userid,
             date: userPrizes.date,
-            deleted: userPrizes.deleted,
-            paid: userPrizes.paid
         }).from(userPrizes)
-            .where(
-                or(
-                    eq(userPrizes.deleted, true),
-                    eq(userPrizes.paid, true)
-                )
-            )
+            .where(eq(userPrizes.deleted, true))
             .offset((page - 1) * size)
             .limit(size)
             .orderBy(desc(userPrizes.date))
@@ -36,9 +29,7 @@ export async function GET(req: NextRequest) {
                 amount: p.amount,
                 assetID: p.assetID === "ALGO" ? p.assetID : Number.parseInt(p.assetID),
                 userid: p.userid,
-                date: p.date,
-                paid: p.paid,
-                deleted: p.deleted
+                date: p.date
             }
         })
 
