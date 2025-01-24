@@ -172,7 +172,7 @@ export default function Transactions() {
     {
         try {
             console.log("Deleting transaction with id", id);
-            const response = await axios.delete(`/api/delete/${id}`);
+            const response = await axios.delete(`/api/delete?id=${id}`);
             if (response.status === 200 || response.status === 201) {
                 toast.success("Transaction deleted successfully");
                 setSuccess((prev) => !prev);
