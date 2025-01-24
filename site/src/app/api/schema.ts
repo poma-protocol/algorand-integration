@@ -7,5 +7,6 @@ export const userPrizes = pgTable("userPrizes", {
     assetID: text().notNull(),
     amount: real().notNull(),
     paid: boolean().notNull().default(false),
-    date: timestamp().notNull().defaultNow()
+    date: timestamp().notNull().defaultNow(),
+    deleted: boolean().notNull().default(false)
 })
