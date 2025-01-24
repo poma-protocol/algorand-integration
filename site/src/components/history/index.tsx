@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { GoCopy } from "react-icons/go";
 import { SiAlgorand } from "react-icons/si";
-import { MdDeleteOutline } from "react-icons/md";
 import {
     Table,
     TableBody,
@@ -31,7 +30,7 @@ interface Transaction {
     date: string;
 }
 
-export default function Transactions() {
+export default function History() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const { activeAddress, algodClient, transactionSigner } = useWallet();
     const [currentPage, setCurrentPage] = useState(1);
@@ -198,10 +197,7 @@ export default function Transactions() {
                         <TableHead className="text-left">Wallet Address</TableHead>
                         <TableHead className="text-left">Asset Type</TableHead>
                         <TableHead className="text-right">Amount</TableHead>
-                        <TableHead className="text-center">Mark as Paid</TableHead>
                         <TableHead className="text-center">Copy address</TableHead>
-                        <TableHead className="text-center">Pay</TableHead>
-                        <TableHead className="text-center">Delete</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -224,29 +220,13 @@ export default function Transactions() {
                             <TableCell className="text-right flex items-center justify-end">
                                 {tx.amount} {tx.assetID === "ALGO" && <SiAlgorand className="ml-2" />}
                             </TableCell>
-                            <TableCell className="text-center">
-                                <Checkbox id={`checkbox-${tx.id}`} onClick={() => handleMarkAsPaid(tx.id)} />
-                            </TableCell>
+                          
                             <TableCell className="text-center">
                                 <Button variant="outline" size="icon" onClick={() => handleCopy(tx.address)}>
                                     <GoCopy />
                                 </Button>
                             </TableCell>
-                            <TableCell className="text-center">
-                                <Button
-                                    variant="secondary"
-                                    onClick={() => handlePay({
-                                        tokenType: tx.assetID, address: tx.address, amount: tx.amount, id: tx.id
-                                    })}
-                                >
-                                    Pay
-                                </Button>
-                            </TableCell>
-                            <TableCell className="text-center">
-                                <Button variant="outline" size="icon">
-                                    <MdDeleteOutline />
-                                </Button>
-                            </TableCell>
+                            
                         </TableRow>
                     ))}
                 </TableBody>
