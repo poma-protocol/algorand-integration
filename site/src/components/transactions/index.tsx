@@ -168,7 +168,22 @@ export default function Transactions() {
             console.log("Error", error);
         }
     }
-
+    async function handleDelete(id: number)
+    {
+        try {
+            console.log("Deleting transaction with id", id);
+            const response = await axios.delete(`/api/delete/${id}`);
+            if (response.status === 200 || response.status === 201) {
+                toast.success("Transaction deleted successfully");
+                setSuccess((prev) => !prev);
+            } else {
+                toast.error("Failed to delete transaction");
+            }
+        } catch (error) {
+            toast.error("Failed to delete transaction");
+            console.log("Error occured", error);
+        }
+    }
     const handleCopy = (address: string) => {
         navigator.clipboard.writeText(address);
         toast.success("Copied!");
@@ -243,7 +258,7 @@ export default function Transactions() {
                                 </Button>
                             </TableCell>
                             <TableCell className="text-center">
-                                <Button variant="outline" size="icon">
+                                <Button variant="outline" size="icon" onClick={()=>handleDelete(tx.id)} >
                                     <MdDeleteOutline />
                                 </Button>
                             </TableCell>

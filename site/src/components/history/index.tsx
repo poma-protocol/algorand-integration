@@ -28,6 +28,8 @@ interface Transaction {
     assetID: number | "ALGO";
     userid: string;
     date: string;
+    paid: boolean;
+    deleted: boolean;
 }
 
 export default function History() {
@@ -43,7 +45,7 @@ export default function History() {
         const fetchTransactions = async (page: number) => {
             setIsLoading(true);
             try {
-                const response = await axios.get(`/api/prizes?page=${page}&size=${pageSize}`)
+                const response = await axios.get(`/api/history?page=${page}&size=${pageSize}`)
                 const data = await response.data;
                 if (response.status === 200 || response.status === 201) {
                     setTransactions(data)
@@ -62,111 +64,6 @@ export default function History() {
         fetchTransactions(currentPage);
     }, [currentPage, success]);
     // Mark a transaction as paid
-    const handleMarkAsPaid = async (id: number) => {
-        try {
-
-            const response = await axios.post(`/api/pay/${id}`);
-            if (response.status === 200 || response.status === 201) {
-                toast.success("Marked as paid!");
-                setSuccess(prev => !prev);
-            }
-            else {
-                toast.error("Failed to mark as paid");
-                return;
-            }
-            setTransactions((prev) =>
-                prev.map((tx) =>
-                    tx.id === id ? { ...tx, paid: true } : tx
-                )
-            );
-        } catch (error) {
-            console.log(error);
-            toast.error("Failed to mark as paid");
-        }
-    };
-
-    async function handlePay(values: {
-        tokenType: number | "ALGO", address: string, amount: number, id: number
-    }) {
-        if (!activeAddress) {
-            toast.error("Please connect your wallet");
-            return;
-        }
-        try {
-            if (typeof values.tokenType === "number") {
-                console.log("Sending custom token");
-
-                // Send custom token
-                const assetInfo = await getAssetDetails(algodClient, values.tokenType);
-                const assetAmount = values.amount * (10 ** assetInfo.decimals);
-                const suggestedParams = await algodClient.getTransactionParams().do();
-                const atc = new algosdk.AtomicTransactionComposer();
-                atc.addMethodCall({
-                    appID: Number.parseInt(process.env.NEXT_PUBLIC_APP_ID!),
-                    method: contract.getMethodByName("send_reward"),
-                    methodArgs: [
-                        assetAmount,
-                        values.address,
-                        values.tokenType
-                    ],
-                    appForeignAssets: [values.tokenType],
-                    sender: activeAddress!,
-                    signer: transactionSigner,
-                    suggestedParams
-                })
-                console.log(atc);
-                const result = await atc.execute(algodClient, 4)
-
-                console.info(`[App] ✅ Successfully sent transaction!`, {
-                    confirmedRound: result.confirmedRound,
-                    txIDs: result.txIDs
-                })
-                toast.success("Rewards sent successfully");
-                handleMarkAsPaid(values.id);
-                setSuccess(prev => !prev);
-                console.log("Done");
-                return
-            }
-            else if (values.tokenType === "ALGO") {
-                console.log("Sending algo");
-                // Send ALGO token
-                const suggestedParams = await algodClient.getTransactionParams().do();
-                const atc = new algosdk.AtomicTransactionComposer();
-                atc.addMethodCall({
-                    appID: Number.parseInt(process.env.NEXT_PUBLIC_APP_ID!),
-                    method: contract.getMethodByName("send_algo_reward"),
-                    methodArgs: [
-                        values.amount * 1000000,
-                        values.address
-                    ],
-                    sender: activeAddress!,
-                    signer: transactionSigner,
-                    suggestedParams
-                })
-
-                const result = await atc.execute(algodClient, 4)
-
-                console.info(`[App] ✅ Successfully sent transaction!`, {
-                    confirmedRound: result.confirmedRound,
-                    txIDs: result.txIDs
-                })
-                console.log("Done");
-                toast.success("Rewards sent successfully");
-                handleMarkAsPaid(values.id);
-                setSuccess(prev => !prev);
-                return
-            }
-            else {
-                toast.error("Invalid token type");
-                return;
-            }
-
-        }
-        catch (error) {
-            toast.error("Error sending rewards");
-            console.log("Error", error);
-        }
-    }
 
     const handleCopy = (address: string) => {
         navigator.clipboard.writeText(address);
@@ -196,7 +93,8 @@ export default function History() {
                         <TableHead className="text-left">Time</TableHead>
                         <TableHead className="text-left">Wallet Address</TableHead>
                         <TableHead className="text-left">Asset Type</TableHead>
-                        <TableHead className="text-right">Amount</TableHead>
+                        <TableHead className="text-left">Amount</TableHead>
+                        <TableHead className="text-right">Status</TableHead>
                         <TableHead className="text-center">Copy address</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -204,7 +102,7 @@ export default function History() {
                     {transactions.map((tx) => (
                         <TableRow key={tx.id} className="hover:bg-gray-50">
                             <TableCell className="text-left">
-                                {tx.userid}
+                                {tx.id}
 
                             </TableCell>
                             <TableCell className="text-left">
@@ -217,16 +115,18 @@ export default function History() {
                                 {truncateAddress(tx.address)}
                             </TableCell>
                             <TableCell className="text-left">{tx.assetID}</TableCell>
-                            <TableCell className="text-right flex items-center justify-end">
+                            <TableCell className="text-left flex items-center justify-start">
                                 {tx.amount} {tx.assetID === "ALGO" && <SiAlgorand className="ml-2" />}
                             </TableCell>
-                          
+                            <TableCell className="text-right">
+                                {tx.paid ? "PAID" : tx.deleted ? "DELETED" : "PENDING"}
+                            </TableCell>
                             <TableCell className="text-center">
                                 <Button variant="outline" size="icon" onClick={() => handleCopy(tx.address)}>
                                     <GoCopy />
                                 </Button>
                             </TableCell>
-                            
+
                         </TableRow>
                     ))}
                 </TableBody>
