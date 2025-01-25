@@ -61,7 +61,7 @@ export default function Transactions() {
         };
 
         fetchTransactions(currentPage);
-    }, [currentPage, success]);
+    }, [currentPage, success, pageSize]);
     // Mark a transaction as paid
     const handleMarkAsPaid = async (id: number) => {
         try {

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Checkbox } from "../ui/checkbox";
 import { truncateAddress } from "@/utils/truncateAddress";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -16,11 +15,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { contract } from "@/utils/algod-client";
-import { useWallet } from "@txnlab/use-wallet-react";
-import algosdk from "algosdk";
 import axios from "axios";
-import { getAssetDetails } from "@/utils/get-asset-details";
 interface Transaction {
     id: number;
     address: string;
@@ -34,11 +29,10 @@ interface Transaction {
 
 export default function History() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const { activeAddress, algodClient, transactionSigner } = useWallet();
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize] = useState(5); // Adjust page size as needed
     const [isLoading, setIsLoading] = useState(false);
-    const [success, setSuccess] = useState(false); // State to track success
+    const [success] = useState(false); // State to track success
 
     useEffect(() => {
         // Fetch transactions with pagination
@@ -62,7 +56,7 @@ export default function History() {
         };
 
         fetchTransactions(currentPage);
-    }, [currentPage, success]);
+    }, [currentPage, success, pageSize]);
     // Mark a transaction as paid
 
     const handleCopy = (address: string) => {
