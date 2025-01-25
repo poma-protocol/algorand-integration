@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { GoCopy } from "react-icons/go";
 import { SiAlgorand } from "react-icons/si";
+import { MdDeleteOutline } from "react-icons/md";
 import {
     Table,
     TableBody,
@@ -167,7 +168,22 @@ export default function Transactions() {
             console.log("Error", error);
         }
     }
-
+    async function handleDelete(id: number)
+    {
+        try {
+            console.log("Deleting transaction with id", id);
+            const response = await axios.delete(`/api/delete?id=${id}`);
+            if (response.status === 200 || response.status === 201) {
+                toast.success("Transaction deleted successfully");
+                setSuccess((prev) => !prev);
+            } else {
+                toast.error("Failed to delete transaction");
+            }
+        } catch (error) {
+            toast.error("Failed to delete transaction");
+            console.log("Error occured", error);
+        }
+    }
     const handleCopy = (address: string) => {
         navigator.clipboard.writeText(address);
         toast.success("Copied!");
@@ -200,6 +216,7 @@ export default function Transactions() {
                         <TableHead className="text-center">Mark as Paid</TableHead>
                         <TableHead className="text-center">Copy address</TableHead>
                         <TableHead className="text-center">Pay</TableHead>
+                        <TableHead className="text-center">Delete</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -238,6 +255,11 @@ export default function Transactions() {
                                     })}
                                 >
                                     Pay
+                                </Button>
+                            </TableCell>
+                            <TableCell className="text-center">
+                                <Button variant="outline" size="icon" onClick={()=>handleDelete(tx.id)} >
+                                    <MdDeleteOutline />
                                 </Button>
                             </TableCell>
                         </TableRow>

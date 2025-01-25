@@ -6,7 +6,8 @@ import Transactions from "../transactions";
 import { useState } from "react";
 import FundTreasury from "../fund-treasury";
 import { GrTransaction } from "react-icons/gr";
-
+import { MdHistory } from "react-icons/md";
+import History from "../history";
 
 const Sidebar = () => {
     const [activePage, setActivePage] = useState("Treasury Wallet");
@@ -14,7 +15,8 @@ const Sidebar = () => {
     const Menus = [
         { title: "Treasury Wallet", Icon: PiWalletBold },
         { title: "Send Rewards", Icon: FiSend },
-        { title: "Transactions", Icon: GrTransaction, gap: true },
+        { title: "Pending", Icon: GrTransaction, gap: true },
+        { title: "History", Icon: MdHistory }
     ];
 
     const renderContent = () => {
@@ -23,8 +25,10 @@ const Sidebar = () => {
                 return <FundTreasury />;
             case "Send Rewards":
                 return <SendRewards />;
-            case  "Transactions":
-                return <Transactions/>
+            case "Pending":
+                return <Transactions />;
+            case "History":
+                return <History />;
             default:
                 return <FundTreasury />;
         }
@@ -34,17 +38,15 @@ const Sidebar = () => {
         <div className="flex h-full">
             {/* Sidebar */}
             <div
-                className={`${
-                    true ? "w-72" : "w-20"
-                } border-r border-black p-5 pt-8 relative duration-300`}
+                className={`${true ? "w-72" : "w-20"
+                    } border-r border-black p-5 pt-8 relative duration-300`}
             >
                 <div className="flex gap-x-4 items-center">
                     <h1
-                        className={`text-black origin-left font-medium text-xl duration-200 ${
-                            !true && "scale-0"
-                        }`}
+                        className={`text-black origin-left font-medium text-xl duration-200 ${!true && "scale-0"
+                            }`}
                     >
-                      
+
                     </h1>
                 </div>
                 <ul className="pt-6">
@@ -56,9 +58,8 @@ const Sidebar = () => {
                         >
                             <Menu.Icon size={20} />
                             <span
-                                className={`${
-                                    !true && "hidden"
-                                } origin-left duration-200`}
+                                className={`${!true && "hidden"
+                                    } origin-left duration-200`}
                             >
                                 {Menu.title}
                             </span>

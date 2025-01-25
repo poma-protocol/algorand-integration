@@ -1,4 +1,4 @@
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import db from "../database";
 import { userPrizes } from "../schema";
 import { type NextRequest } from "next/server";
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
             userid: userPrizes.userid,
             date: userPrizes.date,
         }).from(userPrizes)
-            .where(eq(userPrizes.paid, false))
+            .where(and(eq(userPrizes.paid, false), eq(userPrizes.deleted, false)))
             .offset((page - 1) * size)
             .limit(size)
             .orderBy(desc(userPrizes.date))
